@@ -45,6 +45,7 @@ function renderIPhoneX(withBottom, withTop) {
             </defs>
         </svg>
     `);
+    phone.name = 'Iphone X';
 
     return phone;
 }

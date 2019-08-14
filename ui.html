@@ -20,8 +20,7 @@
 		</div>
 	</fieldset>
 	
-	<button id="create">Create</button>
-	<button id="cancel">Cancel</button>
+	<button id="create" class="button">Create</button>
 </article>
 
 <style>
@@ -37,6 +36,17 @@
 		font-size: 16px;
 		text-align: left;
 	}
+
+	.button {
+		font-size: 12px;
+		padding: 5px 15px;
+		background: none;
+		border-radius: 5px;
+		border: none;
+		background: #1bc47d;
+		color: #fff;
+		margin: 10px 0;
+	}
 </style>
 
 <script>
@@ -50,8 +60,6 @@
 			withTop: withTop.checked,
 			withBottom: withBottom.checked
 		};
-
-		console.warn(values);
 
 		parent.postMessage({ pluginMessage: { type: 'create-phone-mock', values } }, '*')
 	};

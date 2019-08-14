@@ -50,6 +50,7 @@ function renderIPhoneX(withBottom, withTop) {
             </defs>
         </svg>
     `);
+    phone.name = 'Iphone X';
     return phone;
 }
 figma.ui.onmessage = (msg) => __awaiter(this, void 0, void 0, function* () {
