@@ -1,31 +1,62 @@
-<h2>Rectangle Creator</h2>
-<p>Count: <input id="count"  type="text" value="Glitch"></p>
-<button id="create">Create</button>
-<button id="cancel">Cancel</button>
+<main class="main">
+	<h1 class="title">Choose phone mockup</h2>
+
+	<fieldset id="field-group">
+		<div class="setting-group">
+			<input type="radio" id="phone" value="iphoneX" checked>
+			<label for="phone" class="label">Iphone X</label>
+		</div>
+	</fieldset>
+
+	<fieldset class="field-group">
+		<div class="setting-group">
+			<input type="checkbox" id="setting-top" checked>
+			<label for="setting-top" class="label">With top</label>
+		</div>
+
+		<div class="setting-group">
+			<input type="checkbox" id="setting-bottom" checked>
+			<label for="setting-bottom" class="label">With bottom</label>
+		</div>
+	</fieldset>
+	
+	<button id="create">Create</button>
+	<button id="cancel">Cancel</button>
+</article>
+
+<style>
+	.main {
+		font-family: "Roboto", sans-serif;
+	}
+
+	.label {
+		font-size: 14px;
+	}
+	
+	.title {
+		font-size: 16px;
+		text-align: left;
+	}
+</style>
 
 <script>
-  window.onmessage = async (event) => {
-    var request = new XMLHttpRequest()
-      // This link has random lorem ipsum text
-      request.open('GET', 'https://cors-anywhere.herokuapp.com/http://www.randomtext.me/download/text/lorem/ul-8/5-15')
-      request.responseType = 'text'
-      request.onload = () => {
-        window.parent.postMessage({pluginMessage: request.response}, '*')
-      };
-      request.send()
-  }
-</script>
+	document.getElementById('create').onclick = () => {
+		const phone = document.getElementById('phone');
+		const withTop = document.getElementById('setting-top');
+		const withBottom = document.getElementById('setting-bottom');
 
-<script>
+		const values = {
+			phone: phone.value,
+			withTop: withTop.checked,
+			withBottom: withBottom.checked
+		};
 
-document.getElementById('create').onclick = () => {
-  const textbox = document.getElementById('count');
-  const text = textbox.value;
-  parent.postMessage({ pluginMessage: { type: 'create-rectangles', text } }, '*')
-};
+		console.warn(values);
 
-document.getElementById('cancel').onclick = () => {
-  parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
-};
+		parent.postMessage({ pluginMessage: { type: 'create-phone-mock', values } }, '*')
+	};
 
+	document.getElementById('cancel').onclick = () => {
+		parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+	};
 </script>
