@@ -1,0 +1,31 @@
+<h2>Rectangle Creator</h2>
+<p>Count: <input id="count"  type="text" value="Glitch"></p>
+<button id="create">Create</button>
+<button id="cancel">Cancel</button>
+
+<script>
+  window.onmessage = async (event) => {
+    var request = new XMLHttpRequest()
+      // This link has random lorem ipsum text
+      request.open('GET', 'https://cors-anywhere.herokuapp.com/http://www.randomtext.me/download/text/lorem/ul-8/5-15')
+      request.responseType = 'text'
+      request.onload = () => {
+        window.parent.postMessage({pluginMessage: request.response}, '*')
+      };
+      request.send()
+  }
+</script>
+
+<script>
+
+document.getElementById('create').onclick = () => {
+  const textbox = document.getElementById('count');
+  const text = textbox.value;
+  parent.postMessage({ pluginMessage: { type: 'create-rectangles', text } }, '*')
+};
+
+document.getElementById('cancel').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+};
+
+</script>
