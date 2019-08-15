@@ -3,4 +3,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.user = {
     id: 1
 };
-//# sourceMappingURL=data.js.map
+//# sourceMappingURL=test.js.map
