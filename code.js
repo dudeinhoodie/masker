@@ -7,7 +7,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 figma.showUI(__html__);
+// Constants
+const PHONES_SIZES = {
+    IPHONE_X: {
+        width: 209,
+        height: 443,
+    },
+};
+const DEFAULT_PHONE_SIZE = {
+    width: 400,
+    height: 400,
+};
+// Methods
 function renderIPhoneX(withBottom, withTop) {
+    const { width, height } = PHONES_SIZES.IPHONE_X;
     const bottomBar = `
         <rect x="172" y="742" width="134" height="5" rx="2.5" fill="black"/>
     `;
@@ -26,8 +39,8 @@ function renderIPhoneX(withBottom, withTop) {
         </g>
     `;
     const phone = figma.createNodeFromSvg(`
-        <svg width="478" height="828" viewBox="0 0 478 828" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="478" height="828" fill="none"/>
+        <svg width="${width}" height="${height}" viewBox="0 0 478 828" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="${width}" height="${height}" fill="none"/>
 
             <g clip-path="url(#clip0)">
 
@@ -53,9 +66,33 @@ function renderIPhoneX(withBottom, withTop) {
     phone.name = 'Iphone X';
     return phone;
 }
+function getPhoneSize(phone) {
+    const upperPhone = phone.toUpperCase();
+    const { width, height } = PHONES_SIZES[upperPhone];
+    console.warn(width, height);
+    console.warn(upperPhone);
+    console.warn(PHONES_SIZES);
+    if (width && height) {
+        return {
+            width,
+            height,
+        };
+    }
+    return DEFAULT_PHONE_SIZE;
+}
+function createInnerFrame(phone) {
+    const { width, height } = getPhoneSize(phone);
+    const frame = figma.createFrame();
+    frame.resize(width, height);
+    frame.x = 84;
+    frame.y = 75;
+    return frame;
+}
 figma.ui.onmessage = (msg) => __awaiter(this, void 0, void 0, function* () {
     const { phone, withBottom, withTop } = msg.values;
     const iphone = renderIPhoneX(withBottom, withTop);
+    const innerFrame = createInnerFrame(phone);
+    iphone.appendChild(innerFrame);
     // frame.resize(317, 680);
     // frame.backgrounds = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
     // frame.appendChild(iphone);
