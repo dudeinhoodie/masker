@@ -1,0 +1,1 @@
+{"version":3,"file":"phones.js","sourceRoot":"","sources":["phones.ts"],"names":[],"mappings":";;AAAa,QAAA,WAAW,GAAG,MAAM,CAAC,MAAM,CAAC;IACrC,QAAQ,EAAE,UAAU;IACpB,QAAQ,EAAE,UAAU;IACpB,aAAa,EAAE,eAAe;IAC9B,YAAY,EAAE,cAAc;IAC5B,eAAe,EAAE,iBAAiB;IAClC,mBAAmB,EAAE,qBAAqB;CAC7C,CAAC,CAAC"}

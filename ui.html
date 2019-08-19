@@ -13,23 +13,18 @@
         </div>
 
         <div class="setting-group">
-            <input type="radio" name="phone" id="IPHONE_8_GOLD" value="IPHONE_8_GOLD" />
-            <label for="IPHONE_8_GOLD" class="label">IPHONE_8_GOLD</label>
+            <input type="radio" name="phone" id="IPHONE_7_PLUS_JET_BLACK" value="IPHONE_7_PLUS_JET_BLACK" />
+            <label for="IPHONE_7_PLUS_JET_BLACK" class="label">IPHONE_7_PLUS_JET_BLACK</label>
         </div>
 
         <div class="setting-group">
-            <input type="radio" name="phone" id="IPHONE_8_RED" value="IPHONE_8_RED" />
-            <label for="IPHONE_8_RED" class="label">IPHONE_8_RED</label>
+            <input type="radio" name="phone" id="IPHONE_XS_PLUS_GOLD" value="IPHONE_XS_PLUS_GOLD" />
+            <label for="IPHONE_XS_PLUS_GOLD" class="label">IPHONE_XS_PLUS_GOLD</label>
         </div>
 
         <div class="setting-group">
-            <input type="radio" name="phone" id="IPHONE_8_SILVER" value="IPHONE_8_SILVER" />
-            <label for="IPHONE_8_SILVER" class="label">IPHONE_8_SILVER</label>
-        </div>
-
-        <div class="setting-group">
-            <input type="radio" name="phone" id="IPHONE_8_SPACE_GRAY" value="IPHONE_8_SPACE_GRAY" />
-            <label for="IPHONE_8_SPACE_GRAY" class="label">IPHONE_8_SPACE_GRAY</label>
+            <input type="radio" name="phone" id="IPHONE_XR_BLUE" value="IPHONE_XR_BLUE" />
+            <label for="IPHONE_XR_BLUE" class="label">IPHONE_XR_BLUE</label>
         </div>
     </fieldset>
 
@@ -65,18 +60,21 @@
 <script>
     document.getElementById('create').onclick = () => {
         const phones = document.getElementsByName('phone');
-        let currentPhone = null;
-
-        for (let i = 0; i < phones.length; i++) {
-            if (phones[i].checked) {
-                currentPhone = phones[i].value;
-            }
+        function getValue() {
+	        for (let i = 0; i < phones.length; i++) {
+		        if (phones[i].checked) {
+			        return phones[i].value;
+		        }
+	        }
         }
 
-        console.warn('currentPhone');
-        console.warn(currentPhone);
+	    const currentPhone = getValue();
 
-        const values = {
+	    console.log('currentPhone');
+	    console.log(currentPhone);
+
+
+	    const values = {
             phoneType: currentPhone,
         };
 

@@ -1,10 +1,9 @@
 import {
     IPHONE_8,
-    IPHONE_8_SPACE_GRAY,
-    IPHONE_8_RED,
-    IPHONE_8_GOLD,
-    IPHONE_8_SILVER,
     IPHONE_X,
+    IPHONE_7_PLUS_JET_BLACK,
+    IPHONE_XS_PLUS_GOLD,
+    IPHONE_XR_BLUE,
 } from '../components/phones';
 
 import { PHONE_TYPES } from '../constants/phones';
@@ -16,34 +15,33 @@ interface IPhoneFactory {
 class PhoneFactory implements IPhoneFactory {
     public phoneType: string = null;
 
-    constructor() {}
-
     public create(phoneType: string): string {
         let phone: string;
 
         switch (phoneType) {
-            case PHONE_TYPES.iphone_x: {
+            case PHONE_TYPES.IPHONE_X: {
                 phone = IPHONE_X;
+                break;
             }
 
-            case PHONE_TYPES.iphone_8: {
+            case PHONE_TYPES.IPHONE_8: {
                 phone = IPHONE_8;
+                break;
             }
 
-            case PHONE_TYPES.iphone_8_gold: {
-                phone = IPHONE_8_GOLD;
+            case PHONE_TYPES.IPHONE_7_PLUS_JET_BLACK: {
+                phone = IPHONE_7_PLUS_JET_BLACK;
+                break;
             }
 
-            case PHONE_TYPES.iphone_8_red: {
-                phone = IPHONE_8_RED;
+            case PHONE_TYPES.IPHONE_XS_PLUS_GOLD: {
+                phone = IPHONE_XS_PLUS_GOLD;
+                break;
             }
 
-            case PHONE_TYPES.iphone_8_silver: {
-                phone = IPHONE_8_SILVER;
-            }
-
-            case PHONE_TYPES.iphone_8_space_gray: {
-                phone = IPHONE_8_SPACE_GRAY;
+            case PHONE_TYPES.IPHONE_XR_BLUE: {
+                phone = IPHONE_XR_BLUE;
+                break;
             }
 
             default: {

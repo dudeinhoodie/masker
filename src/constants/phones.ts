@@ -1,8 +1,7 @@
 export const PHONE_TYPES = Object.freeze({
-    iphone_x: 'IPHONE_X',
-    iphone_8: 'IPHONE_8',
-    iphone_8_gold: 'IPHONE_8_GOLD',
-    iphone_8_red: 'IPHONE_8_RED',
-    iphone_8_silver: 'IPHONE_8_SILVER',
-    iphone_8_space_gray: 'IPHONE_8_SPACE_GRAY',
+    IPHONE_X: 'IPHONE_X',
+    IPHONE_8: 'IPHONE_8',
+    IPHONE_7_PLUS_JET_BLACK: 'IPHONE_7_PLUS_JET_BLACK',
+    IPHONE_XS_PLUS_GOLD: 'IPHONE_XS_PLUS_GOLD',
+    IPHONE_XR_BLUE: 'IPHONE_XR_BLUE',
 });

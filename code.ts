@@ -1,5 +1,5 @@
 import PhoneFactory from './src/modules/phone-factory';
-import IPHONE_X from './src/components/phones/iphone-x';
+import IPHONE_X from './src/components/phones/iphones/iphone-x';
 
 figma.showUI(__html__);
 
@@ -11,8 +11,6 @@ function renderPhone(phoneType: string) {
     console.warn('phoneType');
     console.warn(phoneType);
 
-    console.warn('phoneVector');
-    console.warn(phoneVector);
     phoneNode.name = phoneType;
 
     return phoneNode;
