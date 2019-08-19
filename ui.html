@@ -1,70 +1,85 @@
-<main class="main">
-	<h1 class="title">Choose phone mockup</h2>
+<div class="main">
+    <h1 class="title">Choose phone mockup</h1>
 
-	<fieldset id="field-group">
-		<div class="setting-group">
-			<input type="radio" id="phone" value="iphoneX" checked>
-			<label for="phone" class="label">Iphone X</label>
-		</div>
-	</fieldset>
+    <fieldset id="field-group">
+        <div class="setting-group">
+            <input type="radio" name="phone" id="IPHONE_X" value="IPHONE_X" checked />
+            <label for="IPHONE_8" class="label">IPHONE_X</label>
+        </div>
 
-	<fieldset class="field-group">
-		<div class="setting-group">
-			<input type="checkbox" id="setting-top" checked>
-			<label for="setting-top" class="label">With top</label>
-		</div>
+        <div class="setting-group">
+            <input type="radio" name="phone" id="IPHONE_8" value="IPHONE_8" />
+            <label for="IPHONE_8" class="label">IPHONE_8</label>
+        </div>
 
-		<div class="setting-group">
-			<input type="checkbox" id="setting-bottom" checked>
-			<label for="setting-bottom" class="label">With bottom</label>
-		</div>
-	</fieldset>
-	
-	<button id="create" class="button">Create</button>
-</article>
+        <div class="setting-group">
+            <input type="radio" name="phone" id="IPHONE_8_GOLD" value="IPHONE_8_GOLD" />
+            <label for="IPHONE_8_GOLD" class="label">IPHONE_8_GOLD</label>
+        </div>
+
+        <div class="setting-group">
+            <input type="radio" name="phone" id="IPHONE_8_RED" value="IPHONE_8_RED" />
+            <label for="IPHONE_8_RED" class="label">IPHONE_8_RED</label>
+        </div>
+
+        <div class="setting-group">
+            <input type="radio" name="phone" id="IPHONE_8_SILVER" value="IPHONE_8_SILVER" />
+            <label for="IPHONE_8_SILVER" class="label">IPHONE_8_SILVER</label>
+        </div>
+
+        <div class="setting-group">
+            <input type="radio" name="phone" id="IPHONE_8_SPACE_GRAY" value="IPHONE_8_SPACE_GRAY" />
+            <label for="IPHONE_8_SPACE_GRAY" class="label">IPHONE_8_SPACE_GRAY</label>
+        </div>
+    </fieldset>
+
+    <button id="create" class="button">Create</button>
+</div>
 
 <style>
-	.main {
-		font-family: "Roboto", sans-serif;
-	}
+    .main {
+        font-family: 'Roboto', sans-serif;
+    }
 
-	.label {
-		font-size: 14px;
-	}
-	
-	.title {
-		font-size: 16px;
-		text-align: left;
-	}
+    .label {
+        font-size: 14px;
+    }
 
-	.button {
-		font-size: 12px;
-		padding: 5px 15px;
-		background: none;
-		border-radius: 5px;
-		border: none;
-		background: #1bc47d;
-		color: #fff;
-		margin: 10px 0;
-	}
+    .title {
+        font-size: 16px;
+        text-align: left;
+    }
+
+    .button {
+        font-size: 12px;
+        padding: 5px 15px;
+        background: none;
+        border-radius: 5px;
+        border: none;
+        background: #1bc47d;
+        color: #fff;
+        margin: 10px 0;
+    }
 </style>
 
 <script>
-	document.getElementById('create').onclick = () => {
-		const phone = document.getElementById('phone');
-		const withTop = document.getElementById('setting-top');
-		const withBottom = document.getElementById('setting-bottom');
+    document.getElementById('create').onclick = () => {
+        const phones = document.getElementsByName('phone');
+        let currentPhone = null;
 
-		const values = {
-			phone: phone.value,
-			withTop: withTop.checked,
-			withBottom: withBottom.checked
-		};
+        for (let i = 0; i < phones.length; i++) {
+            if (phones[i].checked) {
+                currentPhone = phones[i].value;
+            }
+        }
 
-		parent.postMessage({ pluginMessage: { type: 'create-phone-mock', values } }, '*')
-	};
+        console.warn('currentPhone');
+        console.warn(currentPhone);
 
-	document.getElementById('cancel').onclick = () => {
-		parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
-	};
+        const values = {
+            phoneType: currentPhone,
+        };
+
+        parent.postMessage({ pluginMessage: { type: 'create-phone-mock', values } }, '*');
+    };
 </script>

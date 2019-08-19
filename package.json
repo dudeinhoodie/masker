@@ -1,8 +1,16 @@
 {
   "name": "phones",
   "version": "1.0.0",
-  "description": "This plugin template uses Typescript. If you are familiar with Javascript, Typescript will look very familiar. In fact, valid Javascript code is already valid Typescript code.",
   "main": "code.js",
+	"scripts": {
+		"start": "webpack-dev-server --mode development",
+		"build": "webpack",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/smyskov/phones-figma-plugin.git"
+	},
   "dependencies": {
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.3",
@@ -11,15 +19,6 @@
     "webpack": "^4.39.2"
   },
   "devDependencies": {},
-  "scripts": {
-    "start": "webpack-dev-server --mode development",
-    "build": "webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/smyskov/phones-figma-plugin.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
