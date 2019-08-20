@@ -8,9 +8,6 @@ function renderPhone(phoneType: string) {
     const phoneVector: string = fabric.create(phoneType);
     const phoneNode = figma.createNodeFromSvg(phoneVector);
 
-    console.warn('phoneType');
-    console.warn(phoneType);
-
     phoneNode.name = phoneType;
 
     return phoneNode;
