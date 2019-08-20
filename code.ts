@@ -1,22 +1,37 @@
 import PhoneFactory from './src/modules/phone-factory';
-import IPHONE_X from './src/components/phones/iphones/iphone-x';
+import { PhoneFabricItem } from './src/modules/phone-factory';
 
 figma.showUI(__html__);
 
+type RenderPhoneProps = {
+    phoneType: string;
+    count: number;
+};
+
 function renderPhone(phoneType: string) {
     const fabric = new PhoneFactory();
-    const phoneVector: string = fabric.create(phoneType);
+    const { phoneVector, width, height }: PhoneFabricItem = fabric.create(phoneType);
     const phoneNode = figma.createNodeFromSvg(phoneVector);
 
-    phoneNode.name = phoneType;
-
-    return phoneNode;
+    return {
+        phone: phoneNode,
+        width,
+        height,
+    };
 }
 
 figma.ui.onmessage = async (msg) => {
-    const { phoneType } = msg.values;
-    const iphone = renderPhone(phoneType);
+    const { phoneType, count }: RenderPhoneProps = msg.values;
 
-    figma.currentPage.appendChild(iphone);
+    for (let i = 0; i < count; i++) {
+        const offset = 50;
+        const { phone, width } = renderPhone(phoneType);
+
+        phone.name = `${phoneType}_${i + 1}`;
+        phone.x = width * i + offset * i;
+
+        figma.currentPage.appendChild(phone);
+    }
+
     figma.closePlugin();
 };
