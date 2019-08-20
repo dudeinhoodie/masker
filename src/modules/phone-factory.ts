@@ -13,49 +13,73 @@ interface IPhoneFactory {
     phoneType: string;
 }
 
+export type PhoneFabricItem = {
+    phoneVector: any;
+    width: number;
+    height: number;
+};
+
 class PhoneFactory implements IPhoneFactory {
     public phoneType: string = null;
 
-    public create(phoneType: string): string {
-        let phone: string;
-
+    public create(phoneType: string): PhoneFabricItem {
         switch (phoneType) {
             case PHONE_TYPES.IPHONE_X: {
-                phone = IPHONE_X;
-                break;
+                return {
+                    phoneVector: IPHONE_X,
+                    width: 360,
+                    height: 720,
+                };
             }
 
             case PHONE_TYPES.IPHONE_8: {
-                phone = IPHONE_8;
-                break;
+                return {
+                    phoneVector: IPHONE_8,
+                    width: 448,
+                    height: 907,
+                };
             }
 
             case PHONE_TYPES.IPHONE_XS_PLUS_GOLD: {
-                phone = IPHONE_XS_PLUS_GOLD;
-                break;
+                return {
+                    phoneVector: IPHONE_XS_PLUS_GOLD,
+                    width: 393,
+                    height: 790,
+                };
             }
 
             case PHONE_TYPES.IPHONE_XR_BLUE: {
-                phone = IPHONE_XR_BLUE;
-                break;
+                return {
+                    phoneVector: IPHONE_XR_BLUE,
+                    width: 360,
+                    height: 720,
+                };
             }
 
             case PHONE_TYPES.IPHONE_7_JET_BLACK: {
-                phone = IPHONE_7_JET_BLACK;
-                break;
+                return {
+                    phoneVector: IPHONE_7_JET_BLACK,
+                    width: 448,
+                    height: 894,
+                };
             }
 
             case PHONE_TYPES.IPHONE_8_PLUS: {
-                phone = IPHONE_8_PLUS;
-                break;
+                return {
+                    phoneVector: IPHONE_8_PLUS,
+                    width: 515,
+                    height: 1040,
+                };
             }
 
             default: {
-                phone = IPHONE_X;
+                return {
+                    phoneVector: IPHONE_X,
+                    width: 500,
+                    height: 500,
+                };
             }
         }
-
-        return phone;
     }
 }
 

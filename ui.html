@@ -1,6 +1,8 @@
 <div class="main">
     <h1 class="title">Choose phone mockup</h1>
 
+    <input type="number" id="phones-count" value="3" />
+
     <fieldset id="field-group">
         <div class="setting-group">
             <input type="radio" name="phone" id="IPHONE_X" value="IPHONE_X" checked />
@@ -64,7 +66,9 @@
 
 <script>
     document.getElementById('create').onclick = () => {
+        const phonesCountNode = document.getElementById('phones-count');
         const phones = document.getElementsByName('phone');
+
         function getValue() {
             for (let i = 0; i < phones.length; i++) {
                 if (phones[i].checked) {
@@ -74,12 +78,11 @@
         }
 
         const currentPhone = getValue();
-
-        console.log('currentPhone');
-        console.log(currentPhone);
+        const phonesCount = phonesCountNode.value || 5;
 
         const values = {
             phoneType: currentPhone,
+	        count: phonesCount,
         };
 
         parent.postMessage({ pluginMessage: { type: 'create-phone-mock', values } }, '*');
