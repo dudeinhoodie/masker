@@ -13,8 +13,13 @@
         </div>
 
         <div class="setting-group">
-            <input type="radio" name="phone" id="IPHONE_7_PLUS_JET_BLACK" value="IPHONE_7_PLUS_JET_BLACK" />
-            <label for="IPHONE_7_PLUS_JET_BLACK" class="label">IPHONE_7_PLUS_JET_BLACK</label>
+            <input type="radio" name="phone" id="IPHONE_7_JET_BLACK" value="IPHONE_7_JET_BLACK" />
+            <label for="IPHONE_7_JET_BLACK" class="label">IPHONE_7_JET_BLACK</label>
+        </div>
+
+        <div class="setting-group">
+            <input type="radio" name="phone" id="IPHONE_8_PLUS" value="IPHONE_8_PLUS" />
+            <label for="IPHONE_8_PLUS" class="label">IPHONE_8_PLUS</label>
         </div>
 
         <div class="setting-group">
@@ -61,20 +66,19 @@
     document.getElementById('create').onclick = () => {
         const phones = document.getElementsByName('phone');
         function getValue() {
-	        for (let i = 0; i < phones.length; i++) {
-		        if (phones[i].checked) {
-			        return phones[i].value;
-		        }
-	        }
+            for (let i = 0; i < phones.length; i++) {
+                if (phones[i].checked) {
+                    return phones[i].value;
+                }
+            }
         }
 
-	    const currentPhone = getValue();
+        const currentPhone = getValue();
 
-	    console.log('currentPhone');
-	    console.log(currentPhone);
+        console.log('currentPhone');
+        console.log(currentPhone);
 
-
-	    const values = {
+        const values = {
             phoneType: currentPhone,
         };
 

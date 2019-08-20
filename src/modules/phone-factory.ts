@@ -1,9 +1,10 @@
 import {
     IPHONE_8,
     IPHONE_X,
-    IPHONE_7_PLUS_JET_BLACK,
     IPHONE_XS_PLUS_GOLD,
     IPHONE_XR_BLUE,
+    IPHONE_7_JET_BLACK,
+    IPHONE_8_PLUS,
 } from '../components/phones';
 
 import { PHONE_TYPES } from '../constants/phones';
@@ -29,11 +30,6 @@ class PhoneFactory implements IPhoneFactory {
                 break;
             }
 
-            case PHONE_TYPES.IPHONE_7_PLUS_JET_BLACK: {
-                phone = IPHONE_7_PLUS_JET_BLACK;
-                break;
-            }
-
             case PHONE_TYPES.IPHONE_XS_PLUS_GOLD: {
                 phone = IPHONE_XS_PLUS_GOLD;
                 break;
@@ -41,6 +37,16 @@ class PhoneFactory implements IPhoneFactory {
 
             case PHONE_TYPES.IPHONE_XR_BLUE: {
                 phone = IPHONE_XR_BLUE;
+                break;
+            }
+
+            case PHONE_TYPES.IPHONE_7_JET_BLACK: {
+                phone = IPHONE_7_JET_BLACK;
+                break;
+            }
+
+            case PHONE_TYPES.IPHONE_8_PLUS: {
+                phone = IPHONE_8_PLUS;
                 break;
             }
 
