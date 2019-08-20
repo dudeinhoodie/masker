@@ -1,6 +1,7 @@
 <div class="main">
     <h1 class="title">Choose phone mockup</h1>
 
+    <input type="color" id="bcg-color-picker" />
     <input type="number" id="phones-count" value="3" />
 
     <fieldset id="field-group">
@@ -66,6 +67,7 @@
 
 <script>
     document.getElementById('create').onclick = () => {
+        const colorPickerNode = document.getElementById('bcg-color-picker');
         const phonesCountNode = document.getElementById('phones-count');
         const phones = document.getElementsByName('phone');
 
@@ -77,12 +79,15 @@
             }
         }
 
+        console.warn('colorPickerNode__value');
+        console.warn(colorPickerNode.value);
+
         const currentPhone = getValue();
         const phonesCount = phonesCountNode.value || 5;
 
         const values = {
             phoneType: currentPhone,
-	        count: phonesCount,
+            count: phonesCount,
         };
 
         parent.postMessage({ pluginMessage: { type: 'create-phone-mock', values } }, '*');
