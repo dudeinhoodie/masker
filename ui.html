@@ -79,15 +79,14 @@
             }
         }
 
-        console.warn('colorPickerNode__value');
-        console.warn(colorPickerNode.value);
-
         const currentPhone = getValue();
+        const screenColor = colorPickerNode.value || '#FFF';
         const phonesCount = phonesCountNode.value || 5;
 
         const values = {
             phoneType: currentPhone,
             count: phonesCount,
+            screenColor,
         };
 
         parent.postMessage({ pluginMessage: { type: 'create-phone-mock', values } }, '*');

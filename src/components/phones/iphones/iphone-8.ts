@@ -1,4 +1,4 @@
-const phone = `
+const phone = (color) => `
     <svg width="449" height="908" viewBox="0 0 449 908" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g>
             <path
@@ -115,8 +115,8 @@ const phone = `
             />
             <path
                 d="M418.122 110.372H30.3179V796.679H418.122V110.372Z"
-                fill="black"
-                stroke="#323331"
+                fill="${color}"
+                stroke="${color}"
                 stroke-width="2"
                 stroke-linejoin="round"
             />

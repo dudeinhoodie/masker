@@ -1,4 +1,4 @@
-const phone = `
+const phone = (color: string) => `
     <svg
         width="515"
         height="1041"
@@ -129,12 +129,14 @@ const phone = `
                 d="M6 201V268H3.4429C1.52959 268 0 266.865 0 265.444V203.597C0 202.175 1.52959 201 3.4429 201H6Z"
                 fill="url(#paint8_linear)"
             />
+            <rect x="33" y="124" width="448" height="793" fill="${color}" />
         </g>
+        
         <defs>
             <filter
                 id="filter0_f"
                 x="6.73975"
-                y="2.01868"
+                y="2.01867"
                 width="501.051"
                 height="1036.69"
                 filterUnits="userSpaceOnUse"
@@ -146,7 +148,7 @@ const phone = `
             </filter>
             <filter
                 id="filter1_f"
-                x="11.8396"
+                x="11.8397"
                 y="5.85311"
                 width="490.851"
                 height="1029.03"
