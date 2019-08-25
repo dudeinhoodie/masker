@@ -1,6 +1,6 @@
-const phone = `
+const phone = (color: string) => `
     <svg width="449" height="895" viewBox="0 0 449 895" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g>
+        <g clip-path="url(#clip0)">
             <path
                 d="M386.35 0.5H62.0905C30.2907 0.5 4.51184 26.2789 4.51184 58.0787V837.391C4.51184 869.191 30.2907 894.97 62.0905 894.97H386.35C418.149 894.97 443.928 869.191 443.928 837.391V58.0787C443.928 26.2789 418.149 0.5 386.35 0.5Z"
                 fill="black"
@@ -110,6 +110,7 @@ const phone = `
                 stroke-width="1.94978"
                 stroke-linejoin="round"
             />
+            <rect x="35" y="111" width="379" height="673" fill="${color}" />
         </g>
         <defs>
             <filter
@@ -236,8 +237,12 @@ const phone = `
                 <stop offset="0.898003" stop-color="#8A8A8A" />
                 <stop offset="1" stop-color="#9E9E9E" />
             </linearGradient>
+            <clipPath id="clip0">
+                <rect width="449" height="895" fill="white" />
+            </clipPath>
         </defs>
     </svg>
+
 `;
 
 export default phone;

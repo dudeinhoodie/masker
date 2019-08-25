@@ -5,12 +5,13 @@ figma.showUI(__html__);
 
 type RenderPhoneProps = {
     phoneType: string;
+    screenColor: string;
     count: number;
 };
 
-function renderPhone(phoneType: string) {
+function renderPhone(phoneType: string, screenColor: string) {
     const fabric = new PhoneFactory();
-    const { phoneVector, width, height }: PhoneFabricItem = fabric.create(phoneType);
+    const { phoneVector, width, height }: PhoneFabricItem = fabric.create(phoneType, screenColor);
     const phoneNode = figma.createNodeFromSvg(phoneVector);
 
     return {
@@ -21,11 +22,11 @@ function renderPhone(phoneType: string) {
 }
 
 figma.ui.onmessage = async (msg) => {
-    const { phoneType, count }: RenderPhoneProps = msg.values;
+    const { phoneType, count, screenColor }: RenderPhoneProps = msg.values;
 
     for (let i = 0; i < count; i++) {
         const offset = 50;
-        const { phone, width } = renderPhone(phoneType);
+        const { phone, width } = renderPhone(phoneType, screenColor);
 
         phone.name = `${phoneType}_${i + 1}`;
         phone.x = width * i + offset * i;
