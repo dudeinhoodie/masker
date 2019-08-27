@@ -9,6 +9,10 @@ type RenderPhoneProps = {
     count: number;
 };
 
+// TODO: 1. Генерировать нужные размеры телефона
+// TODO: 2. Добавить возможность загрузки фотографии как фон
+// TODO: 3. Накладывать телефон на фрейм
+
 function renderPhone(phoneType: string, screenColor: string) {
     const fabric = new PhoneFactory();
     const { phoneVector, width, height }: PhoneFabricItem = fabric.create(phoneType, screenColor);
