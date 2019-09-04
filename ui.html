@@ -2,7 +2,8 @@
     <h1 class="title">Choose phone mockup</h1>
 
     <input type="color" id="bcg-color-picker" />
-    <input type="number" id="phones-count" value="3" />
+    <input type="file" id="bcg-picture" />
+    <input type="number" id="phones-count" value="1" />
 
     <fieldset id="field-group">
         <div class="setting-group">
@@ -66,10 +67,26 @@
 </style>
 
 <script>
-    document.getElementById('create').onclick = () => {
+    window.addEventListener('load', function() {
         const colorPickerNode = document.getElementById('bcg-color-picker');
         const phonesCountNode = document.getElementById('phones-count');
+        const phonePictureNode = document.getElementById('bcg-picture');
         const phones = document.getElementsByName('phone');
+
+        let image = null;
+
+        phonePictureNode.onchange = (event) => {
+            const reader = new FileReader();
+            const file = phonePictureNode.files[0];
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+
+            reader.onload = () => {
+                image = reader.result;
+            };
+        };
 
         function getValue() {
             for (let i = 0; i < phones.length; i++) {
@@ -79,16 +96,20 @@
             }
         }
 
-        const currentPhone = getValue();
-        const screenColor = colorPickerNode.value || '#FFF';
-        const phonesCount = phonesCountNode.value || 5;
+        document.getElementById('create').onclick = () => {
+            const currentPhone = getValue();
+            const screenColor = colorPickerNode.value || '#FFF';
+            const phonesCount = phonesCountNode.value || 5;
 
-        const values = {
-            phoneType: currentPhone,
-            count: phonesCount,
-            screenColor,
+            const background = image || screenColor || null;
+
+            const values = {
+                phoneType: currentPhone,
+                count: phonesCount,
+                background,
+            };
+
+            parent.postMessage({ pluginMessage: { type: 'create-phone-mock', values } }, '*');
         };
-
-        parent.postMessage({ pluginMessage: { type: 'create-phone-mock', values } }, '*');
-    };
+    });
 </script>
