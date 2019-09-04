@@ -1,4 +1,4 @@
-const phone = (color: string) => `
+const phone = (color?: string) => `
     <svg width="449" height="895" viewBox="0 0 449 895" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip0)">
             <path

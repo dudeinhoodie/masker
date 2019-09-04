@@ -24,13 +24,13 @@ class PhoneFactory implements IPhoneFactory {
     public phoneType: string = null;
     public defaultColor: string = COLORS.WHITE;
 
-    public create(phoneType: string, screenColor: string): PhoneFabricItem {
-        const color = screenColor || this.defaultColor;
+    public create(phoneType: string, background: string): PhoneFabricItem {
+        const screenBackground = background || this.defaultColor;
 
         switch (phoneType) {
             case PHONE_TYPES.IPHONE_X: {
                 return {
-                    phoneVector: IphoneX(color),
+                    phoneVector: screenBackground ? IphoneX(screenBackground) : IphoneX(),
                     width: 360,
                     height: 720,
                 };
@@ -38,7 +38,7 @@ class PhoneFactory implements IPhoneFactory {
 
             case PHONE_TYPES.IPHONE_8: {
                 return {
-                    phoneVector: Iphone8(color),
+                    phoneVector: screenBackground ? Iphone8(screenBackground) : Iphone8(),
                     width: 448,
                     height: 907,
                 };
@@ -46,7 +46,7 @@ class PhoneFactory implements IPhoneFactory {
 
             case PHONE_TYPES.IPHONE_XS_PLUS_GOLD: {
                 return {
-                    phoneVector: IphoneXSPlus(color),
+                    phoneVector: screenBackground ? IphoneXSPlus(screenBackground) : IphoneXSPlus(),
                     width: 393,
                     height: 790,
                 };
@@ -54,7 +54,7 @@ class PhoneFactory implements IPhoneFactory {
 
             case PHONE_TYPES.IPHONE_XR_BLUE: {
                 return {
-                    phoneVector: IphoneXR(color),
+                    phoneVector: screenBackground ? IphoneXR(screenBackground) : IphoneXR(),
                     width: 360,
                     height: 720,
                 };
@@ -62,7 +62,7 @@ class PhoneFactory implements IPhoneFactory {
 
             case PHONE_TYPES.IPHONE_7_JET_BLACK: {
                 return {
-                    phoneVector: Iphone7(color),
+                    phoneVector: screenBackground ? Iphone7(screenBackground) : Iphone7(),
                     width: 448,
                     height: 894,
                 };
@@ -70,7 +70,7 @@ class PhoneFactory implements IPhoneFactory {
 
             case PHONE_TYPES.IPHONE_8_PLUS: {
                 return {
-                    phoneVector: Iphone8Plus(color),
+                    phoneVector: screenBackground ? Iphone8Plus(screenBackground) : Iphone8Plus(),
                     width: 515,
                     height: 1040,
                 };
@@ -78,7 +78,7 @@ class PhoneFactory implements IPhoneFactory {
 
             default: {
                 return {
-                    phoneVector: IphoneX(color),
+                    phoneVector: screenBackground ? IphoneX(screenBackground) : IphoneX(),
                     width: 500,
                     height: 500,
                 };
