@@ -4,6 +4,7 @@ import IPHONE_XS_PLUS_GOLD from './iphones/iphone-xs-plus-gold';
 import IPHONE_XR_BLUE from './iphones/iphone-xr--blue';
 import IPHONE_7_JET_BLACK from './iphones/iphone-7--jet-black';
 import IPHONE_8_PLUS from './iphones/iphone-8-plus';
+import IPHONE_8_SPACE_GRAY from './iphones/iphone-8--space-gray';
 
 export {
     IPHONE_8 as Iphone8,
@@ -12,4 +13,5 @@ export {
     IPHONE_XR_BLUE as IphoneXR,
     IPHONE_XS_PLUS_GOLD as IphoneXSPlus,
     IPHONE_X as IphoneX,
+    IPHONE_8_SPACE_GRAY as Iphone8SpaceGray,
 };

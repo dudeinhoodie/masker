@@ -5,6 +5,7 @@ import {
     IphoneXR,
     Iphone7,
     Iphone8Plus,
+    Iphone8SpaceGray,
 } from '../components/phones';
 
 import { PHONE_TYPES } from '../constants/phones';
@@ -18,6 +19,10 @@ export type PhoneFabricItem = {
     phoneVector: any;
     width: number;
     height: number;
+    screenOffset: {
+        top: number;
+        left: number;
+    };
 };
 
 class PhoneFactory implements IPhoneFactory {
@@ -30,57 +35,98 @@ class PhoneFactory implements IPhoneFactory {
         switch (phoneType) {
             case PHONE_TYPES.IPHONE_X: {
                 return {
-                    phoneVector: screenBackground ? IphoneX(screenBackground) : IphoneX(),
-                    width: 360,
-                    height: 720,
+                    phoneVector: IphoneX(),
+                    width: 432,
+                    height: 863,
+                    screenOffset: {
+                        top: 25,
+                        left: 29,
+                    },
                 };
             }
 
             case PHONE_TYPES.IPHONE_8: {
                 return {
-                    phoneVector: screenBackground ? Iphone8(screenBackground) : Iphone8(),
-                    width: 448,
-                    height: 907,
+                    phoneVector: Iphone8(),
+                    width: 429,
+                    height: 881,
+                    screenOffset: {
+                        top: 107,
+                        left: 27,
+                    },
                 };
             }
 
             case PHONE_TYPES.IPHONE_XS_PLUS_GOLD: {
                 return {
-                    phoneVector: screenBackground ? IphoneXSPlus(screenBackground) : IphoneXSPlus(),
+                    phoneVector: IphoneXSPlus(),
                     width: 393,
                     height: 790,
+                    // TODO: переделать
+                    screenOffset: {
+                        top: 0,
+                        left: 0,
+                    },
                 };
             }
 
             case PHONE_TYPES.IPHONE_XR_BLUE: {
                 return {
-                    phoneVector: screenBackground ? IphoneXR(screenBackground) : IphoneXR(),
-                    width: 360,
-                    height: 720,
+                    phoneVector: IphoneXR(),
+                    width: 432,
+                    height: 863,
+                    screenOffset: {
+                        top: 26,
+                        left: 28,
+                    },
                 };
             }
 
             case PHONE_TYPES.IPHONE_7_JET_BLACK: {
                 return {
-                    phoneVector: screenBackground ? Iphone7(screenBackground) : Iphone7(),
+                    phoneVector: Iphone7(),
                     width: 448,
                     height: 894,
+                    screenOffset: {
+                        top: 110,
+                        left: 35,
+                    },
                 };
             }
 
             case PHONE_TYPES.IPHONE_8_PLUS: {
                 return {
-                    phoneVector: screenBackground ? Iphone8Plus(screenBackground) : Iphone8Plus(),
-                    width: 515,
-                    height: 1040,
+                    phoneVector: Iphone8Plus(),
+                    width: 474,
+                    height: 970,
+                    screenOffset: {
+                        top: 118,
+                        left: 30,
+                    },
+                };
+            }
+
+            case PHONE_TYPES.IPHONE_8_SPACE_GRAY: {
+                return {
+                    phoneVector: Iphone8SpaceGray(),
+                    width: 433,
+                    height: 863,
+                    screenOffset: {
+                        top: 219,
+                        left: 60,
+                    },
                 };
             }
 
             default: {
                 return {
-                    phoneVector: screenBackground ? IphoneX(screenBackground) : IphoneX(),
-                    width: 500,
-                    height: 500,
+                    phoneVector: IphoneX(),
+                    width: 432,
+                    height: 863,
+                    screenOffset: {
+                        top: 25,
+                        left: 29,
+                    },
                 };
             }
         }
