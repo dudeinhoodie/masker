@@ -1,5 +1,5 @@
-import PhoneFactory from './src/modules/phone-factory';
-import { PhoneFabricItem } from './src/modules/phone-factory';
+import PhoneFactory from './modules/phone-factory';
+import { PhoneFabricItem } from './modules/phone-factory';
 
 figma.showUI(__html__, {
     width: 300,

@@ -1,7 +1,9 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "target": "es5",
+        "esModuleInterop": true,
+        "module": "es6",
+        "target": "es6",
+        "jsx": "react",
         "sourceMap": true
     },
     "exclude": ["node_modules"]

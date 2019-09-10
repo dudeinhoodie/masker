@@ -57,42 +57,42 @@ class PhoneFactory implements IPhoneFactory {
                 };
             }
 
-            case PHONE_TYPES.IPHONE_XS_PLUS_GOLD: {
-                return {
-                    phoneVector: IphoneXSPlus(),
-                    width: 393,
-                    height: 790,
-                    // TODO: переделать
-                    screenOffset: {
-                        top: 0,
-                        left: 0,
-                    },
-                };
-            }
+            // case PHONE_TYPES.IPHONE_XS_PLUS_GOLD: {
+            //     return {
+            //         phoneVector: IphoneXSPlus(),
+            //         width: 393,
+            //         height: 790,
+            //         // TODO: переделать
+            //         screenOffset: {
+            //             top: 0,
+            //             left: 0,
+            //         },
+            //     };
+            // }
 
-            case PHONE_TYPES.IPHONE_XR_BLUE: {
-                return {
-                    phoneVector: IphoneXR(),
-                    width: 432,
-                    height: 863,
-                    screenOffset: {
-                        top: 26,
-                        left: 28,
-                    },
-                };
-            }
+            // case PHONE_TYPES.IPHONE_XR_BLUE: {
+            //     return {
+            //         phoneVector: IphoneXR(),
+            //         width: 432,
+            //         height: 863,
+            //         screenOffset: {
+            //             top: 26,
+            //             left: 28,
+            //         },
+            //     };
+            // }
 
-            case PHONE_TYPES.IPHONE_7_JET_BLACK: {
-                return {
-                    phoneVector: Iphone7(),
-                    width: 448,
-                    height: 894,
-                    screenOffset: {
-                        top: 110,
-                        left: 35,
-                    },
-                };
-            }
+            // case PHONE_TYPES.IPHONE_7_JET_BLACK: {
+            //     return {
+            //         phoneVector: Iphone7(),
+            //         width: 448,
+            //         height: 894,
+            //         screenOffset: {
+            //             top: 110,
+            //             left: 35,
+            //         },
+            //     };
+            // }
 
             case PHONE_TYPES.IPHONE_8_PLUS: {
                 return {
@@ -106,17 +106,17 @@ class PhoneFactory implements IPhoneFactory {
                 };
             }
 
-            case PHONE_TYPES.IPHONE_8_SPACE_GRAY: {
-                return {
-                    phoneVector: Iphone8SpaceGray(),
-                    width: 433,
-                    height: 863,
-                    screenOffset: {
-                        top: 219,
-                        left: 60,
-                    },
-                };
-            }
+            // case PHONE_TYPES.IPHONE_8_SPACE_GRAY: {
+            //     return {
+            //         phoneVector: Iphone8SpaceGray(),
+            //         width: 433,
+            //         height: 863,
+            //         screenOffset: {
+            //             top: 219,
+            //             left: 60,
+            //         },
+            //     };
+            // }
 
             default: {
                 return {

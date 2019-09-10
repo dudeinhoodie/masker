@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-var phone_factory_1 = require("./src/modules/phone-factory");
+var phone_factory_1 = require("./modules/phone-factory");
 figma.showUI(__html__);
 function renderPhone(phoneType) {
     var fabric = new phone_factory_1.default();
