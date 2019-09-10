@@ -1,0 +1,50 @@
+.dropdown {
+    display: flex;
+    flex-flow: row nowrap;
+    position: relative;
+
+    &__list {
+        display: flex;
+        flex-flow: column nowrap;
+
+        background: #222;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    &__item {
+        color: #fff;
+        text-align: center;
+        padding: 5px 10px;
+
+        &:hover {
+            background: #18a0fb;
+        }
+
+        &--selected:before {
+            content: '';
+
+            position: absolute;
+            left: 0;
+
+            border-bottom: 3px solid green;
+            border-right: 3px solid green;
+            border-top: 0px solid green;
+            border-left: 0px solid green;
+            transform: rotate(35deg);
+        }
+    }
+
+    &__item-name {
+        position: relative;
+    }
+
+    &__selected {
+    }
+}
