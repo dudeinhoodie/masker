@@ -1,4 +1,4 @@
-import React, { FC, useState, ReactElement } from 'react';
+import React, { FC, useState, useEffect, ReactElement } from 'react';
 import './style.scss';
 
 // TODO: добавить тип для options;
@@ -12,11 +12,21 @@ interface Option {
 }
 
 const Dropdown: FC<DropdownProps> = (props: DropdownProps): ReactElement<HTMLDivElement> => {
+    let dropdownRef: HTMLUListElement | null = null;
     const [dropdown, setDropdown] = useState({
         isOpen: false,
         options: props.options || [],
         selected: props.options[0] || {},
     });
+
+    useEffect(() => {
+        window.addEventListener('click', handleOutsideClick, true);
+
+        return () => {
+            window.removeEventListener('click', handleOutsideClick, true);
+        };
+    });
+
     const { isOpen, options, selected } = dropdown;
 
     const handleOptionClick = (selectedOption) => (): void => {
@@ -30,6 +40,15 @@ const Dropdown: FC<DropdownProps> = (props: DropdownProps): ReactElement<HTMLDiv
                 ...dropdown,
                 options: updatedOptions,
                 selected: selectedOption,
+                isOpen: false,
+            });
+        }
+    };
+
+    const handleOutsideClick = (event): void => {
+        if (dropdownRef && !dropdownRef.contains(event.target)) {
+            setDropdown({
+                ...dropdown,
                 isOpen: false,
             });
         }
@@ -56,12 +75,21 @@ const Dropdown: FC<DropdownProps> = (props: DropdownProps): ReactElement<HTMLDiv
         );
     };
 
+    const setRef = (ref: HTMLUListElement) => {
+        dropdownRef = ref;
+    };
+
     return options.length > 0 ? (
         <div className="dropdown">
             <span className="dropdown__selected" onClick={handleSelectedClick}>
                 {selected && selected.name}
             </span>
-            {isOpen && <ul className="dropdown__list">{options.map(renderOption)}</ul>}
+
+            {isOpen && (
+                <ul ref={(ref) => setRef(ref)} className="dropdown__list">
+                    {options.map(renderOption)}
+                </ul>
+            )}
         </div>
     ) : (
         <div />
