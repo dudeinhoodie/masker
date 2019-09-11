@@ -5,6 +5,7 @@ import './style.scss';
 type DropdownProps = {
     options;
     onChange: Function;
+    tabIndex?: number;
 };
 
 interface Option {
@@ -80,7 +81,7 @@ const Dropdown: FC<DropdownProps> = (props: DropdownProps): ReactElement<HTMLDiv
     };
 
     return options.length > 0 ? (
-        <div className="dropdown">
+        <div className="dropdown" tabIndex={props.tabIndex || -1}>
             <span className="dropdown__selected" onClick={handleSelectedClick}>
                 {selected && selected.name}
             </span>

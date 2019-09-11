@@ -1,4 +1,5 @@
 import React, { FC, ReactElement } from 'react';
+import './style.scss';
 
 type ButtonProps = {
     onClick: Function;
@@ -12,7 +13,7 @@ const Button: FC<ButtonProps> = ({ onClick, title, css }): ReactElement<HTMLButt
     };
 
     return (
-        <button onClick={handleClick} style={css} className={'button'}>
+        <button onClick={handleClick} style={css} className="button">
             {title}
         </button>
     );

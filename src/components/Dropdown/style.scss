@@ -2,6 +2,7 @@
     display: flex;
     flex-flow: row nowrap;
     position: relative;
+    outline: none;
 
     &__list {
         display: flex;

@@ -42,7 +42,7 @@ class App extends React.Component<AppProps, AppState> {
 
         return (
             <div className={'device-picker'}>
-                <Dropdown options={devices} onChange={this.handleDeviceChange} />
+                <Dropdown options={devices} onChange={this.handleDeviceChange} tabIndex={1} />
 
                 <Button title={'Select'} onClick={this.handleConfirm} />
             </div>
