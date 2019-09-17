@@ -1,22 +1,22 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import * as ReactDOM from 'react-dom';
 import './styles/index.scss';
 
 // Components
 import Button from './components/Button/index';
-import Select from './components/Select/index';
+import Dropdown from './components/Dropdown/index';
 
 // Constants
-import { DEVICES } from './constants/devices';
-import { backgroundTypes } from './constants/backgrounds';
-import Dropdown from './components/Dropdown/Dropdown';
+import { DEVICES as devices } from './constants/devices';
 
-interface Device {}
+// Types
+import { Device } from './types';
 
 type AppProps = {};
 type AppState = {
-    // TODO: create DEVICES PROPS;
-    devices: Device;
+    devices: Device[];
+    selected: Device | null;
+    deviceCount: number;
 };
 
 class App extends React.Component<AppProps, AppState> {
@@ -24,17 +24,26 @@ class App extends React.Component<AppProps, AppState> {
         super(props);
 
         this.state = {
-            devices: DEVICES,
+            selected: null,
+            deviceCount: 1,
+            devices,
         };
     }
 
-    handleConfirm = (event: React.MouseEvent): void => {
-        console.warn(event);
+    public handleCreate = (): void => {
+        const { selected, deviceCount } = this.state;
+        const values = {
+            device: selected,
+            count: deviceCount,
+        };
+
+        parent.postMessage({ pluginMessage: { type: 'create-phone-mock', values } }, '*');
     };
 
-    // TODO: change to SELECT_ELEMENT
-    handleDeviceChange = (element: any): void => {
-        console.warn(element);
+    public handleDeviceChange = (element: any): void => {
+        this.setState({
+            selected: element,
+        });
     };
 
     render() {
@@ -42,9 +51,10 @@ class App extends React.Component<AppProps, AppState> {
 
         return (
             <div className={'device-picker'}>
+                <input type={'text'} id={'count'} />
                 <Dropdown options={devices} onChange={this.handleDeviceChange} tabIndex={1} />
 
-                <Button title={'Select'} onClick={this.handleConfirm} />
+                <Button title={'Select'} onClick={this.handleCreate} />
             </div>
         );
     }

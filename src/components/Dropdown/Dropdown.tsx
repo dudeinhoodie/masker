@@ -1,24 +1,26 @@
 import React, { FC, useState, useEffect, ReactElement } from 'react';
+import { Device } from '../../types';
+
 import './style.scss';
 
-// TODO: добавить тип для options;
 type DropdownProps = {
     options;
     onChange: Function;
     tabIndex?: number;
 };
 
-interface Option {
-    selected: boolean;
-}
-
 const Dropdown: FC<DropdownProps> = (props: DropdownProps): ReactElement<HTMLDivElement> => {
     let dropdownRef: HTMLUListElement | null = null;
+    const defaultOption = {
+        id: -1,
+        name: 'None',
+    };
     const [dropdown, setDropdown] = useState({
         isOpen: false,
-        options: props.options || [],
-        selected: props.options[0] || {},
+        options: [defaultOption, ...props.options],
+        selected: defaultOption,
     });
+    const { isOpen, options, selected } = dropdown;
 
     useEffect(() => {
         window.addEventListener('click', handleOutsideClick, true);
@@ -28,9 +30,9 @@ const Dropdown: FC<DropdownProps> = (props: DropdownProps): ReactElement<HTMLDiv
         };
     });
 
-    const { isOpen, options, selected } = dropdown;
-
     const handleOptionClick = (selectedOption) => (): void => {
+        const { onChange } = props;
+
         if (isOpen) {
             const updatedOptions = options.map((option) => ({
                 ...option,
@@ -43,6 +45,10 @@ const Dropdown: FC<DropdownProps> = (props: DropdownProps): ReactElement<HTMLDiv
                 selected: selectedOption,
                 isOpen: false,
             });
+        }
+
+        if (onChange) {
+            onChange(selectedOption);
         }
     };
 
@@ -62,22 +68,22 @@ const Dropdown: FC<DropdownProps> = (props: DropdownProps): ReactElement<HTMLDiv
         });
     };
 
+    const setRef = (ref: HTMLUListElement) => {
+        dropdownRef = ref;
+    };
+
     const renderOption = (option: any): ReactElement<HTMLLIElement> => {
+        const { selected } = dropdown;
+        const current: Device = selected;
+        const className = `dropdown__item ${
+            current && option.id === current.id ? 'dropdown__item--selected' : ''
+        }`;
+
         return (
-            <li
-                key={option.id}
-                className={`dropdown__item ${
-                    option.id === selected.id ? 'dropdown__item--selected' : ''
-                }`}
-                onClick={handleOptionClick(option)}
-            >
+            <li key={option.id} className={className} onClick={handleOptionClick(option)}>
                 <span className="dropdown__item-name">{option.name}</span>
             </li>
         );
-    };
-
-    const setRef = (ref: HTMLUListElement) => {
-        dropdownRef = ref;
     };
 
     return options.length > 0 ? (

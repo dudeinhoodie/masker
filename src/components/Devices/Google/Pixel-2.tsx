@@ -1,4 +1,4 @@
-export const GooglePixel2 = (bcg?: string) => `
+export const Pixel2 = (bcg?: string) => `
     <svg width="463" height="964" viewBox="0 0 463 964" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g>
              <path
@@ -197,3 +197,5 @@ export const GooglePixel2 = (bcg?: string) => `
         </defs>
     </svg>
 `;
+
+export default Pixel2;
