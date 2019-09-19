@@ -1,4 +1,4 @@
 export const FRAME = {
     OFFSET: 10,
-    RIGHT_SPACE: 50,
+    RIGHT_SPACE: 40,
 };

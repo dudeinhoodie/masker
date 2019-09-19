@@ -1,6 +1,7 @@
 import PhoneFactory from './modules/phone-factory';
 import { FRAME } from './constants/frame';
 import { Device } from './types';
+import { node } from 'prop-types';
 
 figma.showUI(__html__, {
     width: 300,
@@ -12,23 +13,45 @@ type RenderPhoneProps = {
     count: number;
 };
 
-function createDevice(device: Device): FrameNode {
-    const { vector } = PhoneFactory(device);
-    return figma.createNodeFromSvg(vector);
+const nodeSize = getBoundingNode();
+
+function getBoundingNode() {
+    const selectedNodes = figma.currentPage.selection;
+    const nodesData = [];
+
+    if (selectedNodes.length) {
+        for (let i = 0; i < selectedNodes.length; i++) {
+            const node = selectedNodes[i];
+
+            nodesData.push({
+                name: node.name || i,
+                width: node.width,
+                height: node.height,
+                x: node.x,
+                y: node.y,
+            });
+        }
+    }
+
+    return nodesData;
 }
 
+figma.ui.postMessage(nodeSize);
+
 figma.ui.onmessage = async (msg) => {
-    const { device, count }: RenderPhoneProps = msg.values;
     const selectedNodes = figma.currentPage.selection;
+    const { device, count }: RenderPhoneProps = msg.values;
 
     if (selectedNodes.length) {
         for (let i = 0; i < selectedNodes.length; i++) {
             const container = figma.createFrame();
-
             const currentNode = selectedNodes[i];
 
             // TODO: дать более прозрачные имена
-            const { x, y, width: nodeWidth, height: nodeHeight } = currentNode;
+            // const { x, y, width: nodeWidth, height: nodeHeight } = currentNode;
+            const { x, y } = currentNode;
+            const node = getPairForNode(currentNode);
+
             const deviceNode = createDevice(device);
             const { width, height, screenOffset } = device;
 
@@ -38,7 +61,7 @@ figma.ui.onmessage = async (msg) => {
             deviceNode.y = FRAME.OFFSET;
 
             // TODO: раскидать по функциям
-            currentNode.name = '';
+            // currentNode.name = '';
             currentNode.x = screenOffset.left + FRAME.OFFSET;
             currentNode.y = screenOffset.top + FRAME.OFFSET;
 
@@ -71,3 +94,15 @@ figma.ui.onmessage = async (msg) => {
 
     figma.closePlugin();
 };
+
+function createDevice(device: Device): FrameNode {
+    const { vector } = PhoneFactory(device);
+    return figma.createNodeFromSvg(vector);
+}
+
+function getPairForNode(node: SceneNode) {
+    const { x, y, width, height } = node;
+
+    console.warn('x, y, width, height');
+    console.warn(x, y, width, height);
+}
