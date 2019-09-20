@@ -5,6 +5,7 @@ import './styles/index.scss';
 // Components
 import Button from './components/Button/index';
 import Dropdown from './components/Dropdown/index';
+import Input from './components/Input/index';
 
 // Constants
 import { DEVICES as devices } from './constants/devices';
@@ -12,8 +13,6 @@ import { MAX_DEVICE_COUNT } from './constants/ui';
 
 // Types
 import { Device, NodeBound } from './types';
-import { Simulate } from 'react-dom/test-utils';
-import select = Simulate.select;
 
 type AppProps = {};
 type AppState = {
@@ -86,7 +85,6 @@ const App: FC<AppProps> = () => {
 
     const handleCreate = (): void => {
         const { selected, deviceCount } = state;
-
         const values = {
             device: selected,
             count: deviceCount,
@@ -102,32 +100,36 @@ const App: FC<AppProps> = () => {
         });
     };
 
-    const handleCountChange = (event) => {
-        const inputValue = event.target.value;
-        const value = inputValue > MAX_DEVICE_COUNT ? MAX_DEVICE_COUNT : inputValue;
+    const handleCountChange = (value) => {
+        const deviceCount = value > MAX_DEVICE_COUNT ? MAX_DEVICE_COUNT : value;
 
         setState({
             ...state,
-            deviceCount: value,
+            deviceCount,
         });
     };
 
     return (
         <div className={'device-picker'}>
-            <input
+            <Input
                 type="text"
-                value={state.deviceCount}
                 id={'deviceCount'}
+                value={state.deviceCount}
+                className={'device-picker__count-field'}
                 onChange={handleCountChange}
             />
             <Dropdown
                 options={state.devices}
                 selected={state.selected}
                 onChange={handleDeviceChange}
+                className={'device-picker__device-picker'}
                 tabIndex={1}
             />
-
-            <Button title={'Select'} onClick={handleCreate} />
+            <Button
+                title={'Select'}
+                className={'device-picker__submit-action'}
+                onClick={handleCreate}
+            />
 
             {state.error && <p>{state.error}</p>}
         </div>

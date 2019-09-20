@@ -3,6 +3,7 @@
     flex-flow: row nowrap;
     position: relative;
     outline: none;
+    height: 30px;
 
     &__list {
         display: flex;
@@ -77,6 +78,7 @@
         border: 1px solid rgba(0, 0, 0, 0.1);
         border-radius: 2px;
         position: relative;
+        cursor: pointer;
 
         &:after {
             content: '';

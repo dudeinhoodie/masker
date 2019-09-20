@@ -1,4 +1,25 @@
 #react-page {
-    font-family: Segoe UI, Helvetica, Arial;
     font-size: 14px;
+    font-family: Segoe UI, Helvetica, Arial;
+    height: 100%;
+}
+
+.device-picker {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+
+    &__count-field {
+        margin-bottom: 10px;
+    }
+
+    &__device-picker {
+        margin-bottom: 10px;
+    }
+
+    &__submit-action {
+        // TODO: переделать
+        max-height: 30px;
+        margin-top: auto;
+    }
 }

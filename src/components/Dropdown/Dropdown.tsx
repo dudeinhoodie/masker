@@ -2,12 +2,14 @@ import React, { FC, useState, useEffect, ReactElement } from 'react';
 import { Device } from '../../types';
 
 import './style.scss';
+import { concatClassName } from '../../utils/helper';
 
 type DropdownProps = {
     options;
     onChange: Function;
     selected: any;
     tabIndex?: number;
+    className?: string;
 };
 
 const Dropdown: FC<DropdownProps> = (props: DropdownProps): ReactElement<HTMLDivElement> => {
@@ -21,9 +23,8 @@ const Dropdown: FC<DropdownProps> = (props: DropdownProps): ReactElement<HTMLDiv
         options: [defaultOption, ...props.options],
         selected: props.selected || defaultOption,
     });
+    const cn = concatClassName('dropdown', props.className);
 
-    console.warn('dropdown');
-    console.warn(props);
     const { isOpen, options, selected } = dropdown;
 
     useEffect(() => {
@@ -98,7 +99,7 @@ const Dropdown: FC<DropdownProps> = (props: DropdownProps): ReactElement<HTMLDiv
     };
 
     return options.length > 0 ? (
-        <div className="dropdown" tabIndex={props.tabIndex || -1}>
+        <div className={cn} tabIndex={props.tabIndex || -1}>
             <span className="dropdown__selected" onClick={handleSelectedClick}>
                 {selected && selected.name}
             </span>

@@ -5,7 +5,7 @@ import { node } from 'prop-types';
 
 figma.showUI(__html__, {
     width: 300,
-    height: 350,
+    height: 200,
 });
 
 type RenderPhoneProps = {
