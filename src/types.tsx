@@ -9,3 +9,11 @@ export interface Device {
         left: number;
     };
 }
+
+export type NodeBound = {
+    name: string;
+    width: number;
+    height: number;
+    x: number;
+    y: number;
+};

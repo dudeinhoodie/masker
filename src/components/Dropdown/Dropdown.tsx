@@ -6,6 +6,7 @@ import './style.scss';
 type DropdownProps = {
     options;
     onChange: Function;
+    selected: any;
     tabIndex?: number;
 };
 
@@ -18,12 +19,22 @@ const Dropdown: FC<DropdownProps> = (props: DropdownProps): ReactElement<HTMLDiv
     const [dropdown, setDropdown] = useState({
         isOpen: false,
         options: [defaultOption, ...props.options],
-        selected: defaultOption,
+        selected: props.selected || defaultOption,
     });
+
+    console.warn('dropdown');
+    console.warn(props);
     const { isOpen, options, selected } = dropdown;
 
     useEffect(() => {
         window.addEventListener('click', handleOutsideClick, true);
+
+        if (props.selected !== dropdown.selected) {
+            setDropdown({
+                ...dropdown,
+                selected: props.selected,
+            });
+        }
 
         return () => {
             window.removeEventListener('click', handleOutsideClick, true);
