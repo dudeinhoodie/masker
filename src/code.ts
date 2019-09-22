@@ -1,11 +1,10 @@
 import PhoneFactory from './modules/phone-factory';
 import { FRAME } from './constants/frame';
-import { Device } from './types';
-import { node } from 'prop-types';
+import { Device, NodeBound } from './types';
 
 figma.showUI(__html__, {
     width: 300,
-    height: 200,
+    height: 250,
 });
 
 type RenderPhoneProps = {
@@ -13,22 +12,23 @@ type RenderPhoneProps = {
     count: number;
 };
 
-const nodeSize = getBoundingNode();
+/**
+ * Calculating nodes params.
+ */
+function getBoundingNode(): Array<NodeBound> {
+    const selectionNodes = figma.currentPage.selection;
+    const nodesData: NodeBound[] = [];
 
-function getBoundingNode() {
-    const selectedNodes = figma.currentPage.selection;
-    const nodesData = [];
-
-    if (selectedNodes.length) {
-        for (let i = 0; i < selectedNodes.length; i++) {
-            const node = selectedNodes[i];
+    if (selectionNodes.length) {
+        for (let i = 0; i < selectionNodes.length; i++) {
+            const { width, height, x, y, name } = selectionNodes[i];
 
             nodesData.push({
-                name: node.name || i,
-                width: node.width,
-                height: node.height,
-                x: node.x,
-                y: node.y,
+                name: name || i.toString(),
+                width,
+                height,
+                x,
+                y,
             });
         }
     }
@@ -36,73 +36,109 @@ function getBoundingNode() {
     return nodesData;
 }
 
+/**
+ * Creating container node for device node & page node.
+ *
+ * @param node {SceneNode}
+ * @param device {Device}
+ * @param i {number}
+ */
+function createContainer(node: SceneNode, device: Device, i: number): FrameNode {
+    const { x, y } = node;
+    const { width, height } = device;
+    const container = figma.createFrame();
+    const name = `${node.name || 'Frame'} with ${device.name} mask`;
+
+    container.x = (width + FRAME.RIGHT_SPACE) * i + x;
+    container.y = y;
+    container.name = name;
+    container.backgrounds = [{ type: 'SOLID', opacity: 0, color: { r: 0, g: 0, b: 0 } }];
+
+    container.resize(width + FRAME.OFFSET * 2, height + FRAME.OFFSET * 2);
+
+    return container;
+}
+
+/**
+ * Creating device frame node.
+ *
+ * @param device {Device}
+ */
+function createDevice(device: Device): FrameNode {
+    const { vector } = PhoneFactory(device);
+    const deviceNode = figma.createNodeFromSvg(vector);
+
+    deviceNode.name = `${device.name} mask`;
+    deviceNode.x = FRAME.OFFSET;
+    deviceNode.y = FRAME.OFFSET;
+    deviceNode.locked = true;
+
+    return deviceNode;
+}
+
+/**
+ * Set position for current picked node.
+ *
+ * @param node {SceneNode} – picked node;
+ * @param device {Device}
+ */
+function updatePageNode(node: SceneNode, device: Device): SceneNode {
+    const { screenOffset } = device;
+
+    node.x = screenOffset.left + FRAME.OFFSET;
+    node.y = screenOffset.top + FRAME.OFFSET;
+
+    return node;
+}
+
+/**
+ * Creating devices on current page if did not picked any frames.
+ *
+ * @param values {Object} - user settings from UI.
+ */
+function createDefaultDevices(values): void {
+    const { device, count }: RenderPhoneProps = values;
+
+    for (let i = 0; i < count; i++) {
+        const deviceNode = createDevice(device);
+
+        deviceNode.name = `${device.name}_${i + 1}`;
+        deviceNode.x = device.width * i + FRAME.OFFSET * i;
+
+        figma.currentPage.appendChild(deviceNode);
+    }
+}
+
+/**
+ * Appending masks for picked frames.
+ *
+ * @param nodes {SceneNode} - picked page nodes.
+ * @param values {Object} - user settings from UI.
+ */
+function createSelectionDevices(nodes, values): void {
+    const { device }: RenderPhoneProps = values;
+
+    for (let i = 0; i < nodes.length; i++) {
+        const pageNode: SceneNode = updatePageNode(nodes[i], device);
+        const deviceNode: FrameNode = createDevice(device);
+        const containerNode: FrameNode = createContainer(pageNode, device, i);
+
+        containerNode.appendChild(pageNode);
+        containerNode.appendChild(deviceNode);
+
+        figma.currentPage.appendChild(containerNode);
+    }
+}
+
+const nodeSize = getBoundingNode();
 figma.ui.postMessage(nodeSize);
 
 figma.ui.onmessage = async (msg) => {
-    const selectedNodes = figma.currentPage.selection;
-    const { device, count }: RenderPhoneProps = msg.values;
+    const selectionNodes = figma.currentPage.selection;
 
-    if (selectedNodes.length) {
-        for (let i = 0; i < selectedNodes.length; i++) {
-            const container = figma.createFrame();
-            const currentNode = selectedNodes[i];
-
-            // TODO: дать более прозрачные имена
-            // const { x, y, width: nodeWidth, height: nodeHeight } = currentNode;
-            const { x, y } = currentNode;
-            const node = getPairForNode(currentNode);
-
-            const deviceNode = createDevice(device);
-            const { width, height, screenOffset } = device;
-
-            // TODO: раскидать по функциям
-            deviceNode.name = `${device.name}_${i + 1}`;
-            deviceNode.x = FRAME.OFFSET;
-            deviceNode.y = FRAME.OFFSET;
-
-            // TODO: раскидать по функциям
-            // currentNode.name = '';
-            currentNode.x = screenOffset.left + FRAME.OFFSET;
-            currentNode.y = screenOffset.top + FRAME.OFFSET;
-
-            deviceNode.locked = true;
-
-            // TODO: вынести offset в константу
-            container.x = x + 50 * i;
-            container.y = y;
-
-            container.name = `${currentNode.name || 'Frame'} with ${device.name} mask`;
-            container.backgrounds = [{ type: 'SOLID', opacity: 0, color: { r: 0, g: 0, b: 0 } }];
-            container.resize(width + FRAME.OFFSET * 2, height + FRAME.OFFSET * 2);
-
-            container.appendChild(currentNode);
-            container.appendChild(deviceNode);
-
-            figma.currentPage.appendChild(container);
-        }
-    } else {
-        for (let i = 0; i < count; i++) {
-            const offset = 50;
-            const deviceNode = createDevice(device);
-
-            deviceNode.name = `${device.name}_${i + 1}`;
-            deviceNode.x = device.width * i + offset * i;
-
-            figma.currentPage.appendChild(deviceNode);
-        }
-    }
+    selectionNodes.length
+        ? createSelectionDevices(selectionNodes, msg.values)
+        : createDefaultDevices(msg.values);
 
     figma.closePlugin();
 };
-
-function createDevice(device: Device): FrameNode {
-    const { vector } = PhoneFactory(device);
-    return figma.createNodeFromSvg(vector);
-}
-
-function getPairForNode(node: SceneNode) {
-    const { x, y, width, height } = node;
-
-    console.warn('x, y, width, height');
-    console.warn(x, y, width, height);
-}

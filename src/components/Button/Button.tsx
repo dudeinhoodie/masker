@@ -7,17 +7,21 @@ type ButtonProps = {
     title: string;
     css?: string;
     className?: string;
+    disabled?: boolean;
 };
 
 const Button: FC<ButtonProps> = (props): ReactElement<HTMLButtonElement> => {
-    const { className, onClick, title, css } = props;
+    const { className, onClick, title, css, disabled } = props;
     const cn = concatClassName('button', className);
+
     const handleClick = (event: React.MouseEvent): void => {
-        onClick(event);
+        if (onClick && !disabled) {
+            onClick(event);
+        }
     };
 
     return (
-        <button onClick={handleClick} style={css} className={cn}>
+        <button onClick={handleClick} style={css} className={cn} disabled={disabled}>
             {title}
         </button>
     );

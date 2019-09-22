@@ -1,6 +1,6 @@
 #react-page {
     font-size: 14px;
-    font-family: Segoe UI, Helvetica, Arial;
+    font-family: Inter, Roboto, sans-serif;
     height: 100%;
 }
 
@@ -17,9 +17,7 @@
         margin-bottom: 10px;
     }
 
-    &__submit-action {
-        // TODO: переделать
-        max-height: 30px;
+    &__footer {
         margin-top: auto;
     }
 }

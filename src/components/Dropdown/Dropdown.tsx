@@ -1,6 +1,9 @@
 import React, { FC, useState, useEffect, ReactElement } from 'react';
 import { Device } from '../../types';
 
+// Components
+import Label from '../Label/Label';
+
 import './style.scss';
 import { concatClassName } from '../../utils/helper';
 
@@ -10,6 +13,8 @@ type DropdownProps = {
     selected: any;
     tabIndex?: number;
     className?: string;
+    label?: string;
+    disabled?: boolean;
 };
 
 const Dropdown: FC<DropdownProps> = (props: DropdownProps): ReactElement<HTMLDivElement> => {
@@ -21,16 +26,23 @@ const Dropdown: FC<DropdownProps> = (props: DropdownProps): ReactElement<HTMLDiv
     const [dropdown, setDropdown] = useState({
         isOpen: false,
         options: [defaultOption, ...props.options],
-        selected: props.selected || defaultOption,
+        selected: defaultOption,
     });
-    const cn = concatClassName('dropdown', props.className);
-
     const { isOpen, options, selected } = dropdown;
+    const cn = concatClassName('dropdown', props.className);
+    const cnSelected = concatClassName(
+        'dropdown__selected',
+        props.disabled && 'dropdown__selected--disabled',
+    );
+    const cnList = concatClassName(
+        'dropdown__list-container',
+        props.disabled && 'dropdown__list-container--disabled',
+    );
 
     useEffect(() => {
         window.addEventListener('click', handleOutsideClick, true);
 
-        if (props.selected !== dropdown.selected) {
+        if (props.selected && props.selected !== dropdown.selected) {
             setDropdown({
                 ...dropdown,
                 selected: props.selected,
@@ -74,10 +86,14 @@ const Dropdown: FC<DropdownProps> = (props: DropdownProps): ReactElement<HTMLDiv
     };
 
     const handleSelectedClick = (): void => {
-        setDropdown({
-            ...dropdown,
-            isOpen: !isOpen,
-        });
+        const { disabled } = props;
+
+        if (!disabled) {
+            setDropdown({
+                ...dropdown,
+                isOpen: !isOpen,
+            });
+        }
     };
 
     const setRef = (ref: HTMLUListElement) => {
@@ -100,15 +116,18 @@ const Dropdown: FC<DropdownProps> = (props: DropdownProps): ReactElement<HTMLDiv
 
     return options.length > 0 ? (
         <div className={cn} tabIndex={props.tabIndex || -1}>
-            <span className="dropdown__selected" onClick={handleSelectedClick}>
-                {selected && selected.name}
-            </span>
+            {props.label && <Label text={props.label} />}
 
-            {isOpen && (
-                <ul ref={(ref) => setRef(ref)} className="dropdown__list">
-                    {options.map(renderOption)}
-                </ul>
-            )}
+            <div className={cnList}>
+                <div className={cnSelected} onClick={handleSelectedClick}>
+                    {selected && selected.name}
+                </div>
+                {isOpen && (
+                    <ul ref={(ref) => setRef(ref)} className="dropdown__list">
+                        {options.map(renderOption)}
+                    </ul>
+                )}
+            </div>
         </div>
     ) : (
         <div />

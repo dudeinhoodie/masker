@@ -1,9 +1,7 @@
 .dropdown {
     display: flex;
-    flex-flow: row nowrap;
-    position: relative;
+    flex-flow: column nowrap;
     outline: none;
-    height: 30px;
 
     &__list {
         display: flex;
@@ -13,7 +11,7 @@
         background: #222;
 
         position: absolute;
-        top: 0;
+        top: -7px;
         left: 0;
 
         list-style: none;
@@ -69,9 +67,8 @@
     &__selected {
         font-size: 12px;
 
-        display: flex;
-        flex-flow: row wrap;
         min-width: 160px;
+        margin-bottom: 0;
 
         padding: 7px 10px;
 
@@ -95,5 +92,16 @@
 
             transform: translateY(-50%) rotate(45deg);
         }
+
+        &--disabled {
+            color: rgb(179, 179, 179);
+            cursor: not-allowed;
+        }
+    }
+
+    &__list-container {
+        display: flex;
+        flex-flow: column nowrap;
+        position: relative;
     }
 }

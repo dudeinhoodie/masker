@@ -471,6 +471,7 @@ interface PageNode extends BaseNodeMixin, ChildrenMixin, ExportMixin {
 }
 
 interface FrameNode extends DefaultContainerMixin {
+    closed: boolean;
     readonly type: 'FRAME' | 'GROUP';
     clone(): FrameNode;
 }
