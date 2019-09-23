@@ -1,6 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import * as ReactDOM from 'react-dom';
 import './styles/index.scss';
+import { lang } from './constants/lang';
 
 // Components
 import Button from './components/Button/index';
@@ -19,96 +20,103 @@ import { node } from 'prop-types';
 type AppProps = {};
 
 const App: FC<AppProps> = () => {
-    const [errors, setErrors] = useState([]);
+    const [errors, setErrors] = useState({});
+    const [nodes, setNodes] = useState({
+        items: [],
+        isNodesSame: null,
+    });
     const [state, setState] = useState({
-        deviceCount: 1,
         selected: null,
-        pair: null,
-        nodes: [],
+        deviceQuantity: 1,
         devices,
     });
 
     onmessage = (event) => {
         if (event.data.pluginMessage.length > 0) {
+            setNodes({
+                ...nodes,
+                items: event.data.pluginMessage,
+            });
             setState({
                 ...state,
-                nodes: event.data.pluginMessage,
-                deviceCount: event.data.pluginMessage.length,
+                deviceQuantity: event.data.pluginMessage.length,
             });
         }
     };
 
     const isAllNodesSame = () => {
-        const { nodes } = state;
-
-        if (!nodes) {
-            return null;
+        if (!nodes.items) {
+            return false;
         }
 
-        const first = nodes[0];
-        return nodes.every((node) => node.width === first.width && node.height === first.height);
+        return nodes.items.every((node) => {
+            return node.width === nodes.items[0].width && node.height === nodes.items[0].height;
+        });
     };
 
     useEffect(() => {
-        const { pair } = state;
+        const { selected } = state;
 
-        if (!pair && errors.length) {
+        if (selected === null && nodes.items.length > 0) {
             const isNodesSame = isAllNodesSame();
 
-            if (isNodesSame) {
-                const pair = getPair();
+            if (isNodesSame !== nodes.isNodesSame) {
+                setNodes({
+                    ...nodes,
+                    isNodesSame,
+                });
+            }
 
-                if (pair) {
-                    setState({
-                        ...state,
-                        pair,
-                    });
-                }
+            if (isNodesSame) {
+                setState({
+                    ...state,
+                    selected: getPair(),
+                });
+            } else {
+                setErrors({
+                    ...errors,
+                    ['isNodesSame']: lang.isNotNodesSame,
+                });
             }
         }
 
         validate();
-    });
+    }, [state, nodes]);
 
     const getPair = () => {
         const { devices } = state;
-        const reference = devices[0];
+        const reference = nodes.items[0];
 
-        return devices.find((device) => {
-            return (
-                device.screenSize.width === reference.width &&
-                device.screenSize.height === reference.height
-            );
-        });
+        return (
+            devices.find((device) => {
+                return (
+                    device.screenSize.width === reference.width &&
+                    device.screenSize.height === reference.height
+                );
+            }) || null
+        );
     };
 
     const validate = () => {
-        const { nodes, pair, selected, deviceCount } = state;
-        const errors = [];
+        const { selected, deviceQuantity } = state;
+        const errors = {};
 
-        if (!pair && nodes && nodes.length) {
-            errors.push(`Hasn't parent`);
+        if (!selected || selected.id === -1) {
+            errors['requiredDevice'] = lang.requiredDeviceField;
         }
 
-        if (!selected) {
-            errors.push(`Device is required field`);
-        }
-
-        if (!deviceCount) {
-            errors.push(`Device count is required field`);
+        if (!deviceQuantity) {
+            errors['requiredQuantity'] = lang.requiredDeviceCountField;
         }
 
         setErrors(errors);
     };
 
     const handleCreate = (): void => {
-        validate();
-        const { selected, deviceCount } = state;
-
-        if (selected && deviceCount) {
+        if (!Object.values(errors).length) {
             const values = {
-                device: selected,
-                count: deviceCount,
+                device: state.selected,
+                count: state.deviceQuantity,
             };
 
             parent.postMessage({ pluginMessage: { type: 'create-phone-mock', values } }, '*');
@@ -120,35 +128,37 @@ const App: FC<AppProps> = () => {
             ...state,
             selected: element,
         });
+        validate();
     };
 
     const handleCountChange = (value) => {
-        let deviceCount = null;
+        let deviceQuantity = null;
 
         if (value <= 0 || !value) {
-            deviceCount = 1;
+            deviceQuantity = 1;
         } else if (value > MAX_DEVICE_COUNT) {
-            deviceCount = MAX_DEVICE_COUNT;
+            deviceQuantity = MAX_DEVICE_COUNT;
         } else {
-            deviceCount = value;
+            deviceQuantity = value;
         }
 
         setState({
             ...state,
-            deviceCount,
+            deviceQuantity,
         });
+        validate();
     };
 
     const renderErrors = () => {
-        return errors.map((error, index) => {
-            return <Error id={index} text={error} />;
+        return Object.keys(errors).map((key) => {
+            return <Error id={key} text={errors[key]} />;
         });
     };
 
     return (
         <div className={'device-picker'}>
             <Dropdown
-                disabled={state.pair}
+                disabled={nodes.isNodesSame && state.selected}
                 label={'Device'}
                 options={state.devices}
                 selected={state.selected}
@@ -158,10 +168,10 @@ const App: FC<AppProps> = () => {
             />
             <Input
                 type="number"
-                disabled={state.nodes.length > 0}
+                disabled={nodes.items.length > 0}
                 label={'Device count'}
-                id={'deviceCount'}
-                value={state.deviceCount}
+                id={'deviceQuantity'}
+                value={state.deviceQuantity}
                 className={'device-picker__count-field'}
                 onChange={handleCountChange}
             />

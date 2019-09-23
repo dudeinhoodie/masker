@@ -130,9 +130,7 @@ function createSelectionDevices(nodes, values): void {
     }
 }
 
-const nodeSize = getBoundingNode();
-figma.ui.postMessage(nodeSize);
-
+figma.ui.postMessage(getBoundingNode());
 figma.ui.onmessage = async (msg) => {
     const selectionNodes = figma.currentPage.selection;
 
