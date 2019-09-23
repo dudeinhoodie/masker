@@ -15,7 +15,6 @@ import { MAX_DEVICE_COUNT } from './constants/ui';
 
 // Types
 import { Device } from './types';
-import { node } from 'prop-types';
 
 type AppProps = {};
 
@@ -33,13 +32,14 @@ const App: FC<AppProps> = () => {
 
     onmessage = (event) => {
         if (event.data.pluginMessage.length > 0) {
-            setNodes({
-                ...nodes,
-                items: event.data.pluginMessage,
-            });
             setState({
                 ...state,
                 deviceQuantity: event.data.pluginMessage.length,
+            });
+
+            setNodes({
+                ...nodes,
+                items: event.data.pluginMessage,
             });
         }
     };
@@ -113,6 +113,10 @@ const App: FC<AppProps> = () => {
     };
 
     const handleCreate = (): void => {
+        console.warn(errors);
+        console.warn(nodes);
+        console.warn(state);
+
         if (!Object.values(errors).length) {
             const values = {
                 device: state.selected,
@@ -124,6 +128,9 @@ const App: FC<AppProps> = () => {
     };
 
     const handleDeviceChange = (element: any): void => {
+        console.warn('element');
+        console.warn(element);
+
         setState({
             ...state,
             selected: element,
@@ -132,7 +139,7 @@ const App: FC<AppProps> = () => {
     };
 
     const handleCountChange = (value) => {
-        let deviceQuantity = null;
+        let deviceQuantity = 1;
 
         if (value <= 0 || !value) {
             deviceQuantity = 1;
