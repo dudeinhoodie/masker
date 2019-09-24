@@ -122,7 +122,7 @@ const App: FC<AppProps> = () => {
                 count: state.deviceQuantity,
             };
 
-            parent.postMessage({ pluginMessage: { type: 'create-phone-mock', values } }, '*');
+            parent.postMessage({ pluginMessage: { type: 'create-mask', values } }, '*');
         }
     };
 
