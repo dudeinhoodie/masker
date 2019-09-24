@@ -1,7 +1,7 @@
 import PhoneFactory from './modules/phone-factory';
 import { FRAME } from './constants/frame';
 import { Device, NodeBound } from './types';
-import { node } from 'prop-types';
+import { func, node } from 'prop-types';
 
 figma.showUI(__html__, {
     width: 300,
@@ -44,9 +44,10 @@ function getBoundingNode(): Array<NodeBound> {
  * @param device {Device}
  * @param i {number}
  */
-function createContainer(x, y, device: Device, i: number): FrameNode {
+function createContainer(nodeProperties, device: Device, i: number): FrameNode {
+    const { x, y, name: nodeName } = nodeProperties;
     const { width, height } = device;
-    const name = `${node.name || 'Frame'} with ${device.name} mask`;
+    const name = `${nodeName || 'Frame'} with ${device.name} mask`;
     const container = figma.createFrame();
 
     container.x = x + FRAME.RIGHT_SPACE * i;
@@ -86,8 +87,15 @@ function createDevice(device: Device): FrameNode {
 function updatePageNode(device: Device, node: SceneNode): SceneNode {
     const { screenOffset } = device;
 
+    // TODO: попробовать ограничить через nodeType;
+    // console.warn("deviceNode.getPluginData('nodeType')");
+    // console.warn(node.getPluginData('nodeType'));
+    //
+    // node.setPluginData('nodeType', 'Iphone');
+
     node.x = screenOffset.left + FRAME.OFFSET;
     node.y = screenOffset.top + FRAME.OFFSET;
+    node.locked = true;
 
     return node;
 }
@@ -112,6 +120,18 @@ function createDefaultDevices(values): void {
     }
 }
 
+function getFrameProperties(frame) {
+    // TODO: перемещать контейнер на ширину девайса
+    const x = frame.parent && frame.parent.x && frame.parent.x > frame.x ? frame.parent.x : frame.x;
+    const y = frame.parent && frame.parent.y && frame.parent.y > frame.y ? frame.parent.y : frame.y;
+
+    return {
+        name: frame.name,
+        x,
+        y,
+    };
+}
+
 /**
  * Appending masks for picked frames.
  *
@@ -122,18 +142,13 @@ function createSelectionDevices(nodes, values): void {
     const { device }: RenderPhoneProps = values;
 
     for (let i = 0; i < nodes.length; i++) {
-        const pageFrame = nodes[i];
+        const pageFrameProperties = getFrameProperties(nodes[i]);
 
-        // TODO: попробовать получить координаты через потомков.
-        // TODO: изменить имя общего фрейма
         // TODO: проверить почему не выбирается уже созданый фрейм с мокапом
-        console.warn('nodes[i].parent');
-        console.warn(nodes[i].parent);
-        const { x: frameX, y: frameY } = pageFrame;
 
         const pageNode: SceneNode = updatePageNode(device, nodes[i]);
         const deviceNode: FrameNode = createDevice(device);
-        const containerNode: FrameNode = createContainer(frameX, frameY, device, i);
+        const containerNode: FrameNode = createContainer(pageFrameProperties, device, i);
 
         containerNode.appendChild(pageNode);
         containerNode.appendChild(deviceNode);

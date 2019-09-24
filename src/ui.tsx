@@ -57,7 +57,7 @@ const App: FC<AppProps> = () => {
     useEffect(() => {
         const { selected } = state;
 
-        if (selected === null && nodes.items.length > 0) {
+        if (!selected && nodes.items.length > 0) {
             const isNodesSame = isAllNodesSame();
 
             if (isNodesSame !== nodes.isNodesSame) {
@@ -68,15 +68,14 @@ const App: FC<AppProps> = () => {
             }
 
             if (isNodesSame) {
-                setState({
-                    ...state,
-                    selected: getPair(),
-                });
-            } else {
-                setErrors({
-                    ...errors,
-                    ['isNodesSame']: lang.isNotNodesSame,
-                });
+                const pair = getPair();
+
+                if (pair) {
+                    setState({
+                        ...state,
+                        selected: pair,
+                    });
+                }
             }
         }
 
@@ -135,6 +134,8 @@ const App: FC<AppProps> = () => {
             ...state,
             selected: element,
         });
+        console.warn('__state__');
+        console.warn(state);
         validate();
     };
 
