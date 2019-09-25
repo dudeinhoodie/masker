@@ -23,13 +23,14 @@ function getBoundingNode(): Array<NodeBound> {
     if (selectionNodes.length) {
         for (let i = 0; i < selectionNodes.length; i++) {
             const { width, height, x, y, name } = selectionNodes[i];
-            const mask = selectionNodes[i].getPluginData('mask');
+            const parent = selectionNodes[i].parent;
+            const mask = parent.getPluginData('mask') || selectionNodes[i].getPluginData('mask');
 
             nodesData.push({
                 name: name || i.toString(),
+                mask,
                 width,
                 height,
-                mask,
                 x,
                 y,
             });
@@ -67,15 +68,14 @@ function createContainer(nodeProperties, device: Device, i: number): FrameNode {
  *
  * @param device {Device}
  */
-function createDevice(device: Device): FrameNode {
+function createDevice(device: Device, withFrame: boolean): FrameNode {
     const { vector } = PhoneFactory(device);
     const deviceNode = figma.createNodeFromSvg(vector);
 
     deviceNode.name = `${device.name} mask`;
     deviceNode.x = FRAME.OFFSET;
     deviceNode.y = FRAME.OFFSET;
-    deviceNode.locked = true;
-    deviceNode.setPluginData('mask', device.name);
+    deviceNode.locked = withFrame;
 
     return deviceNode;
 }
@@ -92,7 +92,6 @@ function updatePageNode(device: Device, node: SceneNode): SceneNode {
     node.x = screenOffset.left + FRAME.OFFSET;
     node.y = screenOffset.top + FRAME.OFFSET;
     node.locked = true;
-    node.setPluginData('mask', device.name);
 
     return node;
 }
@@ -107,7 +106,7 @@ function createDefaultDevices(values): void {
 
     for (let i = 0; i < count; i++) {
         const { width } = device;
-        const deviceNode = createDevice(device);
+        const deviceNode = createDevice(device, false);
 
         deviceNode.name = `${device.name}_${i + 1}`;
         deviceNode.x = figma.viewport.center.x + (width + FRAME.RIGHT_SPACE) * i;
@@ -143,7 +142,7 @@ function createSelectionDevices(nodes, values): void {
     for (let i = 0; i < nodes.length; i++) {
         const pageFrameProperties = getFrameProperties(nodes[i]);
         const pageNode: SceneNode = updatePageNode(device, nodes[i]);
-        const deviceNode: FrameNode = createDevice(device);
+        const deviceNode: FrameNode = createDevice(device, true);
         const containerNode: FrameNode = createContainer(pageFrameProperties, device, i);
 
         containerNode.appendChild(pageNode);
