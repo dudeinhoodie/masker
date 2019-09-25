@@ -1,6 +1,5 @@
 export const lang = {
-    requiredDeviceCountField: 'Device count is required field',
-    requiredDeviceField: 'Device is required field',
-    noPair: "Selected frames haven't pair",
-    isNotNodesSame: 'Nodes is not same',
+    requiredDeviceCountField: 'The device count field is required',
+    requiredDeviceField: 'The device field is required',
+    hasElementsWithMask: 'The selected item already has a mask.',
 };

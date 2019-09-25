@@ -14,6 +14,7 @@ export type NodeBound = {
     name: string;
     width: number;
     height: number;
+    mask: string;
     x: number;
     y: number;
 };

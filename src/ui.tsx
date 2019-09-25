@@ -22,6 +22,7 @@ const App: FC<AppProps> = () => {
     const [errors, setErrors] = useState({});
     const [nodes, setNodes] = useState({
         items: [],
+        hasSomeMask: false,
         isNodesSame: null,
     });
     const [state, setState] = useState({
@@ -36,7 +37,6 @@ const App: FC<AppProps> = () => {
                 ...state,
                 deviceQuantity: event.data.pluginMessage.length,
             });
-
             setNodes({
                 ...nodes,
                 items: event.data.pluginMessage,
@@ -59,11 +59,13 @@ const App: FC<AppProps> = () => {
 
         if (!selected && nodes.items.length > 0) {
             const isNodesSame = isAllNodesSame();
+            const hasSomeMask = nodes.items.some((node) => node.mask !== '');
 
-            if (isNodesSame !== nodes.isNodesSame) {
+            if (isNodesSame !== nodes.isNodesSame || hasSomeMask !== nodes.hasSomeMask) {
                 setNodes({
                     ...nodes,
                     isNodesSame,
+                    hasSomeMask,
                 });
             }
 
@@ -97,8 +99,14 @@ const App: FC<AppProps> = () => {
     };
 
     const validate = () => {
+        const { hasSomeMask } = nodes;
         const { selected, deviceQuantity } = state;
         const errors = {};
+
+        if (hasSomeMask) {
+            errors['hasElementsWithMask'] = lang.hasElementsWithMask;
+            return setErrors(errors);
+        }
 
         if (!selected || selected.id === -1) {
             errors['requiredDevice'] = lang.requiredDeviceField;
@@ -112,10 +120,6 @@ const App: FC<AppProps> = () => {
     };
 
     const handleCreate = (): void => {
-        console.warn(errors);
-        console.warn(nodes);
-        console.warn(state);
-
         if (!Object.values(errors).length) {
             const values = {
                 device: state.selected,
@@ -127,15 +131,11 @@ const App: FC<AppProps> = () => {
     };
 
     const handleDeviceChange = (element: any): void => {
-        console.warn('element');
-        console.warn(element);
-
         setState({
             ...state,
             selected: element,
         });
-        console.warn('__state__');
-        console.warn(state);
+
         validate();
     };
 
@@ -154,6 +154,7 @@ const App: FC<AppProps> = () => {
             ...state,
             deviceQuantity,
         });
+
         validate();
     };
 
@@ -166,7 +167,7 @@ const App: FC<AppProps> = () => {
     return (
         <div className={'device-picker'}>
             <Dropdown
-                disabled={nodes.isNodesSame && state.selected}
+                disabled={(nodes.isNodesSame && state.selected) || nodes.hasSomeMask}
                 label={'Device'}
                 options={state.devices}
                 selected={state.selected}
@@ -183,10 +184,8 @@ const App: FC<AppProps> = () => {
                 className={'device-picker__count-field'}
                 onChange={handleCountChange}
             />
-
             <div className={'device-picker__footer'}>
                 {errors && renderErrors()}
-
                 <Button
                     title={'Select'}
                     className={'device-picker__submit-action'}

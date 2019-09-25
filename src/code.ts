@@ -23,11 +23,13 @@ function getBoundingNode(): Array<NodeBound> {
     if (selectionNodes.length) {
         for (let i = 0; i < selectionNodes.length; i++) {
             const { width, height, x, y, name } = selectionNodes[i];
+            const mask = selectionNodes[i].getPluginData('mask');
 
             nodesData.push({
                 name: name || i.toString(),
                 width,
                 height,
+                mask,
                 x,
                 y,
             });
@@ -54,7 +56,7 @@ function createContainer(nodeProperties, device: Device, i: number): FrameNode {
     container.y = y;
     container.name = name;
     container.backgrounds = [{ type: 'SOLID', opacity: 0, color: { r: 0, g: 0, b: 0 } }];
-
+    container.setPluginData('mask', device.name);
     container.resize(width + FRAME.OFFSET * 2, height + FRAME.OFFSET * 2);
 
     return container;
@@ -72,8 +74,8 @@ function createDevice(device: Device): FrameNode {
     deviceNode.name = `${device.name} mask`;
     deviceNode.x = FRAME.OFFSET;
     deviceNode.y = FRAME.OFFSET;
-
     deviceNode.locked = true;
+    deviceNode.setPluginData('mask', device.name);
 
     return deviceNode;
 }
@@ -87,15 +89,10 @@ function createDevice(device: Device): FrameNode {
 function updatePageNode(device: Device, node: SceneNode): SceneNode {
     const { screenOffset } = device;
 
-    // TODO: попробовать ограничить через nodeType;
-    // console.warn("deviceNode.getPluginData('nodeType')");
-    // console.warn(node.getPluginData('nodeType'));
-    //
-    // node.setPluginData('nodeType', 'Iphone');
-
     node.x = screenOffset.left + FRAME.OFFSET;
     node.y = screenOffset.top + FRAME.OFFSET;
     node.locked = true;
+    node.setPluginData('mask', device.name);
 
     return node;
 }
@@ -122,8 +119,10 @@ function createDefaultDevices(values): void {
 
 function getFrameProperties(frame) {
     // TODO: перемещать контейнер на ширину девайса
-    const x = frame.parent && frame.parent.x && frame.parent.x > frame.x ? frame.parent.x : frame.x;
-    const y = frame.parent && frame.parent.y && frame.parent.y > frame.y ? frame.parent.y : frame.y;
+    // const x = frame.parent && frame.parent.x && frame.parent.x > frame.x ? frame.parent.x : frame.x;
+    const x = frame.x;
+    // const y = frame.parent && frame.parent.y && frame.parent.y > frame.y ? frame.parent.y : frame.y;
+    const y = frame.y;
 
     return {
         name: frame.name,
@@ -143,9 +142,6 @@ function createSelectionDevices(nodes, values): void {
 
     for (let i = 0; i < nodes.length; i++) {
         const pageFrameProperties = getFrameProperties(nodes[i]);
-
-        // TODO: проверить почему не выбирается уже созданый фрейм с мокапом
-
         const pageNode: SceneNode = updatePageNode(device, nodes[i]);
         const deviceNode: FrameNode = createDevice(device);
         const containerNode: FrameNode = createContainer(pageFrameProperties, device, i);
