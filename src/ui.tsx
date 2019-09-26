@@ -113,7 +113,11 @@ const App: FC<AppProps> = () => {
         }
 
         if (!deviceQuantity) {
-            errors['requiredQuantity'] = lang.requiredDeviceCountField;
+            errors['requiredQuantity'] = lang.requiredDeviceQuantityField;
+        }
+
+        if (deviceQuantity <= 0 || !deviceQuantity) {
+            errors['requiredQuantity'] = lang.requiredDeviceQuantityFieldMoreThenZero;
         }
 
         setErrors(errors);
@@ -142,9 +146,7 @@ const App: FC<AppProps> = () => {
     const handleCountChange = (value) => {
         let deviceQuantity = 1;
 
-        if (value <= 0 || !value) {
-            deviceQuantity = 1;
-        } else if (value > MAX_DEVICE_COUNT) {
+        if (value > MAX_DEVICE_COUNT) {
             deviceQuantity = MAX_DEVICE_COUNT;
         } else {
             deviceQuantity = value;
@@ -178,7 +180,7 @@ const App: FC<AppProps> = () => {
             <Input
                 type="number"
                 disabled={nodes.items.length > 0}
-                label={'Device count'}
+                label={'Device quantity'}
                 id={'deviceQuantity'}
                 value={state.deviceQuantity}
                 className={'device-picker__count-field'}

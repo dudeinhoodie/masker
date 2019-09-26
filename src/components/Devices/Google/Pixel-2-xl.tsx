@@ -176,9 +176,9 @@ const Pixel2XL = () => `
                 />
             </clipPath>
         </defs>
-        <title>Ресурс 3</title>
-        <g id="Слой_2" data-name="Слой 2">
-            <g id="Слой_1-2" data-name="Слой 1">
+        <title>Source 3</title>
+        <g id="Layer_2" data-name="Layer 2">
+            <g id="Layer_1-2" data-name="Layer 1">
                 <path
                     class="cls-2"
                     d="M467.1,230.54v56.31a3.45,3.45,0,0,1-3.66,3.2H438.93a4,4,0,0,1-1.73-.4V227.74a4,4,0,0,1,1.73-.4h24.51A3.45,3.45,0,0,1,467.1,230.54Z"
