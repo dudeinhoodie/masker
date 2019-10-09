@@ -1,22 +1,26 @@
-This plugin template uses Typescript. If you are familiar with Javascript, Typescript will
-look very familiar. In fact, valid Javascript code is already valid Typescript code.
+Masker allows you to easily overlay devices on selected layers in your project.  First, select one or more layers in your design file, then choose from the Masker palette to apply.
+We recommend that you select layers that match the actual size of the device. The best way to do this is with the devices built into Figma.
 
-Typescript adds type annotations to variables. This allows code editors such as Visual Studio Code
-to provide information about the Figma API while you are writing code, as well as help catch bugs
-you previously didn't notice.
+Choose from the following: 
+— Iphone X
+— Iphone 8 Plus
+— Iphone 8
+— Google Pixel 2
+— Google Pixel 2 XL
 
-For more information, visit https://www.typescriptlang.org/
+How to use Masker. 
+— For single layer selection: Select a layer in the project, then choose from the Maker palette to apply. If you have done everything correctly, the plugin will automatically select the device by size, if not, it will give you this choice.
+— For multiple selections with a layer: select multiple layers in the project, then choose from the Maker palette to apply. If you have done everything correctly, the plugin will automatically calculate the number of selected layers and select the device by size, if not, then give you the choice.
+— For select without a layer: open the Masker from the palette, and then select the desired device and the number of items. 
+Minimum possible number: 1.
+Maximum possible number: 49.
+The maximum limit is made to optimize Figma's performance. Please contact us if you need a larger limit 🙂
 
-Using Typescript requires a compiler to convert Typescript (code.ts) into Javascript (code.js)
-for the browser to run.
+IMPORTANT: When selecting a layer, make sure it does not have a device mask. Otherwise, an error will be displayed.
 
-To get the TypeScript compiler working:
+Ideas for the next version: 
+— Possibility of filling the screen with color and background selection from the gallery.
+— New devices such as watches, laptops, and desktops.
+— Automatic mask matching for different layers. 
 
-1. Download Visual Studio Code if you haven't already: https://code.visualstudio.com/.
-2. Install the TypeScript compiler globally: `sudo npm install -g typescript`.
-3. Open this directory in Visual Studio Code.
-4. Compile TypeScript to JavaScript: Run the "Terminal > Run Build Task..." menu item,
-    then select "tsc: watch - tsconfig.json". You will have to do this again every time
-    you reopen Visual Studio Code.
-
-That's it! Visual Studio Code will regenerate the JavaScript file every time you save.
+Any other ideas? Send them to us at dudeinhoodie@gmail.com
