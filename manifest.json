@@ -1,7 +1,7 @@
 {
-  "name": "glitch",
-  "id": "743170618365358883",
-  "api": "1.0.0",
-  "main": "code.js",
-  "ui": "ui.html"
+    "name": "Masker",
+    "id": "743170618365358883",
+    "api": "1.0.0",
+    "main": "dist/code.js",
+    "ui": "dist/ui.html"
 }

@@ -1,5 +1,10 @@
 {
-  "compilerOptions": {
-    "target": "es6"
-  }
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "module": "es6",
+        "target": "es6",
+        "jsx": "react",
+        "sourceMap": true
+    },
+    "exclude": ["node_modules"]
 }

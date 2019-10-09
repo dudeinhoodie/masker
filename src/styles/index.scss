@@ -1,0 +1,23 @@
+#react-page {
+    font-size: 14px;
+    font-family: Inter, Roboto, sans-serif;
+    height: 100%;
+}
+
+.device-picker {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+
+    &__count-field {
+        margin-bottom: 10px;
+    }
+
+    &__device-picker {
+        margin-bottom: 10px;
+    }
+
+    &__footer {
+        margin-top: auto;
+    }
+}

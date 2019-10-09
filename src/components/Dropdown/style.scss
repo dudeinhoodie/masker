@@ -1,0 +1,107 @@
+.dropdown {
+    display: flex;
+    flex-flow: column nowrap;
+    outline: none;
+
+    &__list {
+        display: flex;
+        flex-flow: column nowrap;
+        min-width: 200px;
+
+        background: #222;
+
+        position: absolute;
+        top: -7px;
+        left: 0;
+
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        border-radius: 2px;
+    }
+
+    &__item {
+        display: inline-block;
+        padding: 5px 10px 5px 30px;
+        position: relative;
+        color: #fff;
+        cursor: pointer;
+
+        &:hover {
+            background: #18a0fb;
+        }
+
+        &:first-child {
+            margin-top: 7px;
+        }
+
+        &:last-child {
+            margin-bottom: 7px;
+        }
+
+        &--selected:after {
+            content: '';
+
+            position: absolute;
+            top: 50%;
+            left: 13px;
+
+            display: block;
+
+            width: 4px;
+            height: 7px;
+
+            border: solid #fff;
+            border-width: 0 2px 2px 0;
+
+            transform: translateY(-60%) rotate(45deg);
+        }
+    }
+
+    &__item-name {
+        font-size: 13px;
+        position: relative;
+    }
+
+    &__selected {
+        font-size: 12px;
+
+        min-width: 160px;
+        margin-bottom: 0;
+
+        padding: 7px 10px;
+
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 2px;
+        position: relative;
+        cursor: pointer;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 10px;
+
+            display: block;
+            width: 5px;
+            height: 5px;
+
+            border: solid rgba(0, 0, 0, 0.3);
+            border-width: 0 1px 1px 0;
+
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        &--disabled {
+            color: rgb(179, 179, 179);
+            cursor: not-allowed;
+        }
+    }
+
+    &__list-container {
+        display: flex;
+        flex-flow: column nowrap;
+        position: relative;
+    }
+}
